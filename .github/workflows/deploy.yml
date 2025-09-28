@@ -1,7 +1,8 @@
-name: Deploy to DigitalOcean
-
+name: deploy
 on:
-  push:
+  workflow_run:
+    workflows: [ "docker-publish" ]
+    types: [ completed ]
     branches: [ main ]
 
 permissions:
@@ -9,74 +10,50 @@ permissions:
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: Deploy remoto (escribe archivos y levanta)
+      - name: SSH into droplet and deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script_stop: true
+          envs: GHCR_USER,GHCR_PAT,SERVER_PATH
           script: |
-            set -euo pipefail
+            set -euxo pipefail
 
-            # Instalar Docker si falta
+            # defaults
+            : "${SERVER_PATH:=/opt/grupo-la-fe}"
+
+            # Docker / Compose
             if ! command -v docker >/dev/null 2>&1; then
               curl -fsSL https://get.docker.com | sh
             fi
-
-            # Asegurar "docker compose" o "docker-compose"
             if docker compose version >/dev/null 2>&1; then
               COMPOSE="docker compose"
             else
-              # instala docker-compose binario como fallback
               sudo curl -L "https://github.com/docker/compose/releases/download/v2.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
               sudo chmod +x /usr/local/bin/docker-compose
               COMPOSE="docker-compose"
             fi
 
-            # Red externa: úsala si existe, créala si no
-            if ! docker network inspect infra_infra_network >/dev/null 2>&1; then
-              docker network create infra_infra_network
-            fi
+            # Red externa para hablar con Caddy central
+            docker network inspect infra_infra_network >/dev/null 2>&1 || docker network create infra_infra_network
 
-            # Carpeta de deploy
-            SERVER_PATH="${{ secrets.SERVER_PATH }}"
             mkdir -p "$SERVER_PATH"
             cd "$SERVER_PATH"
 
-            # docker-compose.yml (solo app, sin Caddy)
-            cat > docker-compose.yml <<COMPOSE_EOF
-            services:
-              app:
-                image: \${DOCR_IMAGE:-grupolafecartagena:latest}
-                container_name: grupo-la-fe-app
-                env_file: .env
-                restart: unless-stopped
-                networks:
-                  - infra_infra_network
-
-            networks:
-              infra_infra_network:
-                external: true
-            COMPOSE_EOF
-
-            # .env (runtime) - NO hacer echo de secrets
-            cat > .env <<ENV_EOF
-            CONTACT_TO=${{ secrets.CONTACT_TO }}
-            CONTACT_FROM=${{ secrets.CONTACT_FROM }}
-            ENV_EOF
-
-            # (Opcional) Login a registry si es imagen privada
-            if [ -n "${{ secrets.DOCR_USERNAME }}" ] && [ -n "${{ secrets.DOCR_PASSWORD }}" ]; then
-              echo "${{ secrets.DOCR_PASSWORD }}" | docker login registry.digitalocean.com -u "${{ secrets.DOCR_USERNAME }}" --password-stdin
+            # Login a GHCR si la imagen es privada (PAT con 'read:packages')
+            if [ -n "${GHCR_PAT:-}" ]; then
+              echo "$GHCR_PAT" | docker login ghcr.io -u "${GHCR_USER:-${USER}}" --password-stdin
             fi
 
-            # Pull defensivo (no falla si no puede)
-            docker pull "${DOCR_IMAGE:-grupolafecartagena:latest}" || true
+            # Pull & Up
+            $COMPOSE -f docker-compose.prod.yml pull
+            $COMPOSE -f docker-compose.prod.yml up -d --remove-orphans
 
-            # Levantar contenedores
-            $COMPOSE up -d --remove-orphans
-
-            echo "Deployment completed successfully"
+            # Limpieza opcional
+            docker image prune -f || true

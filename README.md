@@ -83,9 +83,9 @@ SERVER_PATH=/opt/grupo-la-fe
 CONTACT_TO=contact@example.com
 CONTACT_FROM=noreply@example.com
 
-# (Opcional) Docker Registry si la imagen es privada
-DOCR_USERNAME=tu_usuario_docr
-DOCR_PASSWORD=tu_token_docr
+# (Opcional) Para imágenes privadas en GHCR
+GHCR_USER=tu_usuario_github
+GHCR_PAT=tu_personal_access_token
 ```
 
 **Nota:** El despliegue usa Docker Compose con una imagen pre-construida. La imagen debe estar disponible localmente en el servidor.
@@ -105,11 +105,12 @@ Configurar en GitHub Secrets:
 - `SSH_HOST` - IP del servidor (159.203.110.122)
 - `SSH_USER` - Usuario SSH (root)
 - `SSH_KEY` - Clave privada SSH
+- `SSH_PORT` - (Opcional) Puerto SSH (default: 22)
 - `SERVER_PATH` - Ruta de despliegue (/opt/grupo-la-fe)
 - `CONTACT_TO` - Email de destino para contacto
 - `CONTACT_FROM` - Email remitente
-- `DOCR_USERNAME` - (Opcional) Usuario de Docker registry
-- `DOCR_PASSWORD` - (Opcional) Token/password de Docker registry
+- `GHCR_USER` - (Opcional) Usuario de GitHub para imágenes privadas
+- `GHCR_PAT` - (Opcional) Personal Access Token con scope `read:packages`
 
 ## 🔧 Arquitectura
 

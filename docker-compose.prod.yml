@@ -1,0 +1,16 @@
+services:
+  app:
+    image: ghcr.io/steven230500/grupo-la-fe:latest
+    container_name: grupo-la-fe-app
+    env_file: .env
+    restart: unless-stopped
+    networks:
+      - infra_infra_network
+    # Si Caddy central hace reverse proxy, NO expongas puertos.
+    # Si necesitas probar directo: descomenta
+    # ports:
+    #   - "3003:3000"
+
+networks:
+  infra_infra_network:
+    external: true
