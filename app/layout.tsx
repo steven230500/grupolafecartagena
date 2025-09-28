@@ -12,6 +12,30 @@ export const metadata: Metadata = {
   description:
     "Grupo de apoyo para la recuperación de la ludopatía en Cartagena. Programa de 12 pasos, reuniones confidenciales y acompañamiento.",
   keywords: "jugadores anónimos, ludopatía, apoyo, recuperación, Cartagena, grupo la fe",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      {
+        rel: "android-chrome-192x192",
+        url: "/android-chrome-192x192.png",
+      },
+      {
+        rel: "android-chrome-512x512",
+        url: "/android-chrome-512x512.png",
+      },
+      {
+        rel: "manifest",
+        url: "/site.webmanifest",
+      },
+    ],
+  },
   openGraph: {
     title: "Grupo La Fe Cartagena - Jugadores Anónimos",
     description: "Grupo de apoyo para la recuperación de la ludopatía en Cartagena. Programa de 12 pasos, reuniones confidenciales y acompañamiento.",
@@ -34,6 +58,7 @@ export const metadata: Metadata = {
     description: "Grupo de apoyo para la recuperación de la ludopatía en Cartagena. Programa de 12 pasos, reuniones confidenciales y acompañamiento.",
     images: ["/placeholder-logo.png"],
   },
+  manifest: "/site.webmanifest",
 }
 
 export default function RootLayout({
@@ -54,7 +79,7 @@ export default function RootLayout({
               "name": "Grupo La Fe Cartagena",
               "description": "Grupo de apoyo para la recuperación de la ludopatía en Cartagena. Programa de 12 pasos, reuniones confidenciales y acompañamiento.",
               "url": "https://grupolafecartagena.org",
-              "telephone": "+57 320 3639742",
+              "telephone": "+57 324 321 7980",
               "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Cartagena",
