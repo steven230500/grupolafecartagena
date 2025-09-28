@@ -47,25 +47,25 @@ jobs:
 
             # Crear docker-compose.yml
             cat > docker-compose.yml << 'EOF'
-services:
-  app:
-    image: ghcr.io/steven230500/grupo-la-fe:latest
-    container_name: grupo-la-fe-app
-    env_file: .env
-    restart: unless-stopped
-    networks:
-      - infra_infra_network
+            services:
+              app:
+                image: ghcr.io/steven230500/grupo-la-fe:latest
+                container_name: grupo-la-fe-app
+                env_file: .env
+                restart: unless-stopped
+                networks:
+                  - infra_infra_network
 
-networks:
-  infra_infra_network:
-    external: true
-EOF
+            networks:
+              infra_infra_network:
+                external: true
+            EOF
 
             # Crear .env
             cat > .env << 'EOF'
-CONTACT_TO=contact@grupolafecartagena.org
-CONTACT_FROM=noreply@grupolafecartagena.org
-EOF
+            CONTACT_TO=contact@grupolafecartagena.org
+            CONTACT_FROM=noreply@grupolafecartagena.org
+            EOF
 
             # Pull & Up
             $COMPOSE pull
