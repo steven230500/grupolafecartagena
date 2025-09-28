@@ -20,7 +20,7 @@ export function ContactSection() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const phoneNumber = "+573203639742"
+  const phoneNumber = "+573243217980"
   const whatsappMessage = "Hola, me gustaría obtener información sobre el Grupo La Fe Cartagena"
 
   const handleSubmit = async (e: React.FormEvent) => {

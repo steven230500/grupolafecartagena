@@ -51,9 +51,32 @@ jobs:
               echo "$GHCR_PAT" | docker login ghcr.io -u "${GHCR_USER:-${USER}}" --password-stdin
             fi
 
+            # Copiar docker-compose.prod.yml desde el repo (temporal, en producción clonar el repo)
+            # Por ahora, crear el archivo con la imagen correcta
+            cat > docker-compose.yml <<'COMPOSE_EOF'
+            services:
+              app:
+                image: ghcr.io/steven230500/grupo-la-fe:latest
+                container_name: grupo-la-fe-app
+                env_file: .env
+                restart: unless-stopped
+                networks:
+                  - infra_infra_network
+
+            networks:
+              infra_infra_network:
+                external: true
+            COMPOSE_EOF
+
+            # .env con valores hardcodeados temporalmente para debug
+            cat > .env <<'ENV_EOF'
+            CONTACT_TO=contact@grupolafecartagena.org
+            CONTACT_FROM=noreply@grupolafecartagena.org
+            ENV_EOF
+
             # Pull & Up
-            $COMPOSE -f docker-compose.prod.yml pull
-            $COMPOSE -f docker-compose.prod.yml up -d --remove-orphans
+            $COMPOSE pull
+            $COMPOSE up -d --remove-orphans
 
             # Limpieza opcional
             docker image prune -f || true

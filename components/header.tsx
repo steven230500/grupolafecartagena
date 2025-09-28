@@ -16,7 +16,7 @@ export function Header() {
   }
 
   const openWhatsApp = () => {
-    const phoneNumber = "+573203639742"
+    const phoneNumber = "+573243217980"
     const message = "Hola, me gustaría obtener información sobre el Grupo La Fe Cartagena"
     const whatsappUrl = `https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, "_blank")

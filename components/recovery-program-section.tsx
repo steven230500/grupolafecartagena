@@ -6,7 +6,7 @@ import { ScrollAnimation } from "@/components/scroll-animations"
 import { WaveSeparator } from "@/components/wave-separator"
 
 export function RecoveryProgramSection() {
-  const phoneNumber = "+573203639742"
+  const phoneNumber = "+573243217980"
   const whatsappMessage = "Me interesa conocer más sobre el programa de 12 pasos"
 
   const steps = [

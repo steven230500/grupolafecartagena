@@ -8,7 +8,7 @@ export function FloatingActionButton() {
   const [isOpen, setIsOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
-  const phoneNumber = "+573203639742"
+  const phoneNumber = "+573243217980"
   const whatsappMessage = "Hola, me gustaría obtener información sobre el Grupo La Fe Cartagena"
 
   useEffect(() => {
