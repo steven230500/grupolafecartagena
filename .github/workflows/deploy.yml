@@ -55,9 +55,9 @@ jobs:
 
             # Crear .env
             cat > .env << 'EOF'
-CONTACT_TO=contact@grupolafecartagena.org
-CONTACT_FROM=noreply@grupolafecartagena.org
-EOF
+            CONTACT_TO=contact@grupolafecartagena.org
+            CONTACT_FROM=noreply@grupolafecartagena.org
+            EOF
 
             # Pull & Up
             $COMPOSE pull
