@@ -45,23 +45,18 @@ jobs:
             mkdir -p "$SERVER_PATH"
             cd "$SERVER_PATH"
 
-            # Crear docker-compose.yml
-            echo 'services:
-  app:
-    image: ghcr.io/steven230500/grupo-la-fe:latest
-    container_name: grupo-la-fe-app
-    env_file: .env
-    restart: unless-stopped
-    networks:
-      - infra_infra_network
+            # Copiar archivos desde el repo (más simple y confiable)
+            git clone --depth 1 --branch main https://github.com/steven230500/grupolafecartagena.git temp_repo
+            cp temp_repo/docker-compose.prod.yml docker-compose.yml
+            cp temp_repo/.env.example .env
+            rm -rf temp_repo
 
-networks:
-  infra_infra_network:
-    external: true' > docker-compose.yml
+            # Actualizar imagen en docker-compose.yml
+            sed -i 's|image:.*|image: ghcr.io/steven230500/grupo-la-fe:latest|' docker-compose.yml
 
-            # Crear .env
-            echo 'CONTACT_TO=contact@grupolafecartagena.org
-CONTACT_FROM=noreply@grupolafecartagena.org' > .env
+            # Configurar .env
+            sed -i 's|CONTACT_TO=.*|CONTACT_TO=contact@grupolafecartagena.org|' .env
+            sed -i 's|CONTACT_FROM=.*|CONTACT_FROM=noreply@grupolafecartagena.org|' .env
 
             # Pull & Up
             $COMPOSE pull
