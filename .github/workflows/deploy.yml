@@ -84,7 +84,6 @@ jobs:
 
             # .env (runtime)
             cat > .env <<'ENVVARS'
-            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
             CONTACT_TO=${{ secrets.CONTACT_TO }}
             CONTACT_FROM=${{ secrets.CONTACT_FROM }}
             RECAPTCHA_SECRET_KEY=${{ secrets.RECAPTCHA_SECRET_KEY }}

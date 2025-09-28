@@ -83,7 +83,6 @@ SSH_KEY=your_private_ssh_key
 SERVER_PATH=/opt/grupo-la-fe
 
 # Application Secrets
-RESEND_API_KEY=your_resend_api_key
 CONTACT_TO=contact@example.com
 CONTACT_FROM=noreply@example.com
 RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
@@ -108,7 +107,6 @@ Configurar en GitHub Secrets:
 - `SSH_USER` - Usuario SSH (root)
 - `SSH_KEY` - Clave privada SSH
 - `SERVER_PATH` - Ruta de despliegue (/opt/grupo-la-fe)
-- `RESEND_API_KEY` - API key para envío de emails
 - `CONTACT_TO` - Email de destino para contacto
 - `CONTACT_FROM` - Email remitente
 - `RECAPTCHA_SECRET_KEY` - Clave secreta de reCAPTCHA
