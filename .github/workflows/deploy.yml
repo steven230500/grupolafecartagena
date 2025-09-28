@@ -50,6 +50,15 @@ jobs:
           script: |
             set -e
 
+            echo "=== DEBUG: Variables ==="
+            echo "SSH_HOST: $SSH_HOST"
+            echo "SSH_USER: $SSH_USER"
+            echo "SERVER_PATH: $SERVER_PATH"
+            echo "REGISTRY: $REGISTRY"
+            echo "OWNER: $OWNER"
+            echo "IMAGE_NAME: $IMAGE_NAME"
+            echo "========================"
+
             # Instalar Docker si falta
             docker --version || curl -fsSL https://get.docker.com | sh
 
@@ -63,8 +72,13 @@ jobs:
             fi
 
             # Carpeta de deploy
+            echo "=== DEBUG: Creando directorio ${{ secrets.SERVER_PATH }} ==="
             mkdir -p ${{ secrets.SERVER_PATH }}
             cd ${{ secrets.SERVER_PATH }}
+            echo "Directorio actual: $(pwd)"
+            echo "Contenido del directorio:"
+            ls -la
+            echo "=================================="
 
             # docker-compose.yml (solo app, sin Caddy)
             cat > docker-compose.yml <<'COMPOSE'
@@ -83,6 +97,13 @@ jobs:
             COMPOSE
 
             # .env (runtime)
+            echo "=== DEBUG: Variables de entorno ==="
+            echo "CONTACT_TO: ${{ secrets.CONTACT_TO }}"
+            echo "CONTACT_FROM: ${{ secrets.CONTACT_FROM }}"
+            echo "RECAPTCHA_SECRET_KEY: ${{ secrets.RECAPTCHA_SECRET_KEY }}"
+            echo "NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}"
+            echo "=================================="
+
             cat > .env <<'ENVVARS'
             CONTACT_TO=${{ secrets.CONTACT_TO }}
             CONTACT_FROM=${{ secrets.CONTACT_FROM }}
@@ -90,12 +111,23 @@ jobs:
             NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${{ secrets.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}
             ENVVARS
 
+            echo "=== DEBUG: Archivo .env creado ==="
+            cat .env
+            echo "=================================="
+
             # Login al registry y levantar
+            echo "=== DEBUG: Docker operations ==="
+            echo "Logging into GHCR..."
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             export IMAGE_NAME=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:latest
+            echo "IMAGE_NAME: $IMAGE_NAME"
 
+            echo "Pulling image..."
             $COMPOSE pull
+
+            echo "Starting containers..."
             $COMPOSE up -d --remove-orphans
 
             echo "=== Archivos ==="; ls -la
             echo "=== Estado ==="; $COMPOSE ps
+            echo "=== DEBUG: Finalizado ==="
