@@ -82,6 +82,10 @@ SERVER_PATH=/opt/grupo-la-fe
 # Application Secrets
 CONTACT_TO=contact@example.com
 CONTACT_FROM=noreply@example.com
+
+# (Opcional) Docker Registry si la imagen es privada
+DOCR_USERNAME=tu_usuario_docr
+DOCR_PASSWORD=tu_token_docr
 ```
 
 **Nota:** El despliegue usa Docker Compose con una imagen pre-construida. La imagen debe estar disponible localmente en el servidor.
@@ -104,6 +108,8 @@ Configurar en GitHub Secrets:
 - `SERVER_PATH` - Ruta de despliegue (/opt/grupo-la-fe)
 - `CONTACT_TO` - Email de destino para contacto
 - `CONTACT_FROM` - Email remitente
+- `DOCR_USERNAME` - (Opcional) Usuario de Docker registry
+- `DOCR_PASSWORD` - (Opcional) Token/password de Docker registry
 
 ## 🔧 Arquitectura
 

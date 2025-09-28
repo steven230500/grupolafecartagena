@@ -11,6 +11,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    steps:
       - name: Deploy remoto (escribe archivos y levanta)
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -18,32 +19,38 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            set -e
+            set -euo pipefail
 
             # Instalar Docker si falta
-            docker --version || curl -fsSL https://get.docker.com | sh
+            if ! command -v docker >/dev/null 2>&1; then
+              curl -fsSL https://get.docker.com | sh
+            fi
 
             # Asegurar "docker compose" o "docker-compose"
             if docker compose version >/dev/null 2>&1; then
               COMPOSE="docker compose"
             else
+              # instala docker-compose binario como fallback
               sudo curl -L "https://github.com/docker/compose/releases/download/v2.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
               sudo chmod +x /usr/local/bin/docker-compose
               COMPOSE="docker-compose"
             fi
 
-            # Crear red externa si no existe
-            docker network create infra_infra_network || true
+            # Red externa: úsala si existe, créala si no
+            if ! docker network inspect infra_infra_network >/dev/null 2>&1; then
+              docker network create infra_infra_network
+            fi
 
             # Carpeta de deploy
-            mkdir -p ${{ secrets.SERVER_PATH }}
-            cd ${{ secrets.SERVER_PATH }}
+            SERVER_PATH="${{ secrets.SERVER_PATH }}"
+            mkdir -p "$SERVER_PATH"
+            cd "$SERVER_PATH"
 
             # docker-compose.yml (solo app, sin Caddy)
             cat > docker-compose.yml <<COMPOSE_EOF
             services:
               app:
-                image: grupolafecartagena:latest
+                image: \${DOCR_IMAGE:-grupolafecartagena:latest}
                 container_name: grupo-la-fe-app
                 env_file: .env
                 restart: unless-stopped
@@ -55,13 +62,21 @@ jobs:
                 external: true
             COMPOSE_EOF
 
-            # .env (runtime) - interpolar secrets aquí
+            # .env (runtime) - NO hacer echo de secrets
             cat > .env <<ENV_EOF
             CONTACT_TO=${{ secrets.CONTACT_TO }}
             CONTACT_FROM=${{ secrets.CONTACT_FROM }}
             ENV_EOF
 
+            # (Opcional) Login a registry si es imagen privada
+            if [ -n "${{ secrets.DOCR_USERNAME }}" ] && [ -n "${{ secrets.DOCR_PASSWORD }}" ]; then
+              echo "${{ secrets.DOCR_PASSWORD }}" | docker login registry.digitalocean.com -u "${{ secrets.DOCR_USERNAME }}" --password-stdin
+            fi
+
+            # Pull defensivo (no falla si no puede)
+            docker pull "${DOCR_IMAGE:-grupolafecartagena:latest}" || true
+
             # Levantar contenedores
-            \$COMPOSE up -d --remove-orphans
+            $COMPOSE up -d --remove-orphans
 
             echo "Deployment completed successfully"
