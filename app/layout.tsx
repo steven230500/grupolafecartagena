@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     siteName: "Grupo La Fe Cartagena",
     images: [
       {
-        url: "/placeholder-logo.png",
+        url: "/logo.png",
         width: 1200,
         height: 630,
         alt: "Logo Grupo La Fe Cartagena",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Grupo La Fe Cartagena - Jugadores Anónimos",
     description: "Grupo de apoyo para la recuperación de la ludopatía en Cartagena. Programa de 12 pasos, reuniones confidenciales y acompañamiento.",
-    images: ["/placeholder-logo.png"],
+    images: ["/logo.png"],
   },
   manifest: "/site.webmanifest",
 }
