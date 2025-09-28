@@ -41,12 +41,17 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
+      - name: Prepare SSH key file
+        run: |
+          echo "${{ secrets.SSH_KEY_B64 }}" | base64 -d > id_ed25519
+          chmod 600 id_ed25519
+
       - name: Deploy remoto (escribe archivos y levanta)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          key_path: id_ed25519
           script: |
             set -e
 
