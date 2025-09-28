@@ -62,11 +62,8 @@ Este proyecto forma parte de una infraestructura unificada que comparte un solo 
 Crear archivo `.env` con:
 
 ```env
-RESEND_API_KEY=your_resend_api_key
 CONTACT_TO=contact@example.com
 CONTACT_FROM=noreply@example.com
-RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
-NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
 ```
 
 ### Secrets de GitHub (para CI/CD)
@@ -109,8 +106,6 @@ Configurar en GitHub Secrets:
 - `SERVER_PATH` - Ruta de despliegue (/opt/grupo-la-fe)
 - `CONTACT_TO` - Email de destino para contacto
 - `CONTACT_FROM` - Email remitente
-- `RECAPTCHA_SECRET_KEY` - Clave secreta de reCAPTCHA
-- `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` - Clave pública de reCAPTCHA
 
 ## 🔧 Arquitectura
 
