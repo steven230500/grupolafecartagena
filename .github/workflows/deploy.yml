@@ -51,28 +51,27 @@ jobs:
               echo "$GHCR_PAT" | docker login ghcr.io -u "${GHCR_USER:-${USER}}" --password-stdin
             fi
 
-            # Copiar docker-compose.prod.yml desde el repo (temporal, en producción clonar el repo)
-            # Por ahora, crear el archivo con la imagen correcta
-            cat > docker-compose.yml <<'COMPOSE_EOF'
-            services:
-              app:
-                image: ghcr.io/steven230500/grupo-la-fe:latest
-                container_name: grupo-la-fe-app
-                env_file: .env
-                restart: unless-stopped
-                networks:
-                  - infra_infra_network
+            # Crear docker-compose.yml
+            cat > docker-compose.yml << 'EOF'
+services:
+  app:
+    image: ghcr.io/steven230500/grupo-la-fe:latest
+    container_name: grupo-la-fe-app
+    env_file: .env
+    restart: unless-stopped
+    networks:
+      - infra_infra_network
 
-            networks:
-              infra_infra_network:
-                external: true
-            COMPOSE_EOF
+networks:
+  infra_infra_network:
+    external: true
+EOF
 
-            # .env con valores hardcodeados temporalmente para debug
-            cat > .env <<'ENV_EOF'
-            CONTACT_TO=contact@grupolafecartagena.org
-            CONTACT_FROM=noreply@grupolafecartagena.org
-            ENV_EOF
+            # Crear .env
+            cat > .env << 'EOF'
+CONTACT_TO=contact@grupolafecartagena.org
+CONTACT_FROM=noreply@grupolafecartagena.org
+EOF
 
             # Pull & Up
             $COMPOSE pull
