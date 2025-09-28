@@ -23,10 +23,7 @@ jobs:
           script_stop: true
           envs: GHCR_USER,GHCR_PAT,SERVER_PATH
           script: |
-            set -euxo pipefail
-
-            # defaults
-            : "${SERVER_PATH:=/opt/grupo-la-fe}"
+            set -euo pipefail
 
             # Docker / Compose
             if ! command -v docker >/dev/null 2>&1; then
@@ -43,13 +40,10 @@ jobs:
             # Red externa para hablar con Caddy central
             docker network inspect infra_infra_network >/dev/null 2>&1 || docker network create infra_infra_network
 
+            # Carpeta de deploy
+            SERVER_PATH="${{ secrets.SERVER_PATH }}"
             mkdir -p "$SERVER_PATH"
             cd "$SERVER_PATH"
-
-            # Login a GHCR si la imagen es privada (PAT con 'read:packages')
-            if [ -n "${GHCR_PAT:-}" ]; then
-              echo "$GHCR_PAT" | docker login ghcr.io -u "${GHCR_USER:-${USER}}" --password-stdin
-            fi
 
             # Crear docker-compose.yml
             cat > docker-compose.yml << 'EOF'
@@ -77,5 +71,4 @@ EOF
             $COMPOSE pull
             $COMPOSE up -d --remove-orphans
 
-            # Limpieza opcional
-            docker image prune -f || true
+            echo "Deployment completed successfully"
