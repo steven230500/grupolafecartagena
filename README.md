@@ -74,11 +74,7 @@ NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
 Configurar en **Settings > Secrets and variables > Actions**:
 
 ```bash
-# DigitalOcean
-DO_TOKEN=your_digitalocean_token
-DOCR_REGISTRY=steven-portfolio-reg
-
-# SSH Access
+# SSH Access (para despliegue)
 SSH_HOST=your_server_ip
 SSH_USER=root
 SSH_KEY=your_private_ssh_key
@@ -94,6 +90,8 @@ RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
 ```
 
+**Nota:** El proyecto usa **GitHub Container Registry (GHCR)** que es gratuito e ilimitado. No requiere configuración adicional de registry.
+
 ## 📦 CI/CD
 
 ### GitHub Actions
@@ -106,12 +104,15 @@ El proyecto incluye pipelines automatizados para:
 ### Secrets Requeridos
 
 Configurar en GitHub Secrets:
-- `DO_TOKEN` - Token de DigitalOcean
-- `DOCR_REGISTRY` - Nombre del registro Docker
-- `SSH_HOST` - IP del servidor
-- `SSH_USER` - Usuario SSH
+- `SSH_HOST` - IP del servidor (159.203.110.122)
+- `SSH_USER` - Usuario SSH (root)
 - `SSH_KEY` - Clave privada SSH
-- `SERVER_PATH` - Ruta de despliegue
+- `SERVER_PATH` - Ruta de despliegue (/opt/grupo-la-fe)
+- `RESEND_API_KEY` - API key para envío de emails
+- `CONTACT_TO` - Email de destino para contacto
+- `CONTACT_FROM` - Email remitente
+- `RECAPTCHA_SECRET_KEY` - Clave secreta de reCAPTCHA
+- `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` - Clave pública de reCAPTCHA
 
 ## 🔧 Arquitectura
 
