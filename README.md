@@ -82,11 +82,9 @@ SERVER_PATH=/opt/grupo-la-fe
 # Application Secrets
 CONTACT_TO=contact@example.com
 CONTACT_FROM=noreply@example.com
-RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
-NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
 ```
 
-**Nota:** El proyecto usa **GitHub Container Registry (GHCR)** que es gratuito e ilimitado. No requiere configuración adicional de registry.
+**Nota:** El despliegue usa Docker Compose con una imagen pre-construida. La imagen debe estar disponible localmente en el servidor.
 
 ## 📦 CI/CD
 
