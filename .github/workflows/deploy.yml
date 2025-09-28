@@ -46,17 +46,18 @@ jobs:
             cd "$SERVER_PATH"
 
             # Copiar archivos desde el repo (más simple y confiable)
-            git clone --depth 1 --branch main https://github.com/steven230500/grupolafecartagena.git temp_repo
+            git clone https://github.com/steven230500/grupolafecartagena.git temp_repo
             cp temp_repo/docker-compose.prod.yml docker-compose.yml
-            cp temp_repo/.env.example .env
             rm -rf temp_repo
 
             # Actualizar imagen en docker-compose.yml
             sed -i 's|image:.*|image: ghcr.io/steven230500/grupo-la-fe:latest|' docker-compose.yml
 
-            # Configurar .env
-            sed -i 's|CONTACT_TO=.*|CONTACT_TO=contact@grupolafecartagena.org|' .env
-            sed -i 's|CONTACT_FROM=.*|CONTACT_FROM=noreply@grupolafecartagena.org|' .env
+            # Crear .env
+            cat > .env << 'EOF'
+CONTACT_TO=contact@grupolafecartagena.org
+CONTACT_FROM=noreply@grupolafecartagena.org
+EOF
 
             # Pull & Up
             $COMPOSE pull
