@@ -74,7 +74,7 @@ Configurar en **Settings > Secrets and variables > Actions**:
 # SSH Access (para despliegue)
 SSH_HOST=159.203.110.122
 SSH_USER=root
-SSH_KEY_B64=your_base64_encoded_private_ssh_key
+SSH_KEY=your_private_ssh_key
 
 # Server Path
 SERVER_PATH=/opt/grupo-la-fe
@@ -100,7 +100,7 @@ El proyecto incluye pipelines automatizados para:
 Configurar en GitHub Secrets:
 - `SSH_HOST` - IP del servidor (159.203.110.122)
 - `SSH_USER` - Usuario SSH (root)
-- `SSH_KEY_B64` - Clave privada SSH en base64
+- `SSH_KEY` - Clave privada SSH
 - `SERVER_PATH` - Ruta de despliegue (/opt/grupo-la-fe)
 - `CONTACT_TO` - Email de destino para contacto
 - `CONTACT_FROM` - Email remitente

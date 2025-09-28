@@ -11,26 +11,14 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Prepare SSH key file
-        run: |
-          echo "${{ secrets.SSH_KEY_B64 }}" | base64 -d > id_ed25519
-          chmod 600 id_ed25519
-
       - name: Deploy remoto (escribe archivos y levanta)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          key_path: id_ed25519
+          key: ${{ secrets.SSH_KEY }}
           script: |
             set -e
-
-            echo "=== DEBUG: Variables ==="
-            echo "SSH_HOST: $SSH_HOST"
-            echo "SSH_USER: $SSH_USER"
-            echo "SERVER_PATH: $SERVER_PATH"
-            echo "========================"
 
             # Instalar Docker si falta
             docker --version || curl -fsSL https://get.docker.com | sh
@@ -44,17 +32,15 @@ jobs:
               COMPOSE="docker-compose"
             fi
 
+            # Crear red externa si no existe
+            docker network create infra_infra_network || true
+
             # Carpeta de deploy
-            echo "=== DEBUG: Creando directorio ${{ secrets.SERVER_PATH }} ==="
             mkdir -p ${{ secrets.SERVER_PATH }}
             cd ${{ secrets.SERVER_PATH }}
-            echo "Directorio actual: $(pwd)"
-            echo "Contenido del directorio:"
-            ls -la
-            echo "=================================="
 
             # docker-compose.yml (solo app, sin Caddy)
-            cat > docker-compose.yml <<'COMPOSE'
+            cat > docker-compose.yml <<COMPOSE_EOF
             services:
               app:
                 image: grupolafecartagena:latest
@@ -67,26 +53,15 @@ jobs:
             networks:
               infra_infra_network:
                 external: true
-            COMPOSE
+            COMPOSE_EOF
 
-            # .env (runtime)
-            echo "=== DEBUG: Variables de entorno ==="
-            echo "CONTACT_TO: ${{ secrets.CONTACT_TO }}"
-            echo "CONTACT_FROM: ${{ secrets.CONTACT_FROM }}"
-            echo "=================================="
-
-            cat > .env <<'ENVVARS'
+            # .env (runtime) - interpolar secrets aquí
+            cat > .env <<ENV_EOF
             CONTACT_TO=${{ secrets.CONTACT_TO }}
             CONTACT_FROM=${{ secrets.CONTACT_FROM }}
-            ENVVARS
+            ENV_EOF
 
-            echo "=== DEBUG: Archivo .env creado ==="
-            cat .env
-            echo "=================================="
+            # Levantar contenedores
+            \$COMPOSE up -d --remove-orphans
 
-            echo "Starting containers..."
-            $COMPOSE up -d --remove-orphans
-
-            echo "=== Archivos ==="; ls -la
-            echo "=== Estado ==="; $COMPOSE ps
-            echo "=== DEBUG: Finalizado ==="
+            echo "Deployment completed successfully"
