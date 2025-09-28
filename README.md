@@ -76,7 +76,7 @@ Configurar en **Settings > Secrets and variables > Actions**:
 ```bash
 # DigitalOcean
 DO_TOKEN=your_digitalocean_token
-DOCR_REGISTRY=grupo-la-fe-reg
+DOCR_REGISTRY=steven-portfolio-reg
 
 # SSH Access
 SSH_HOST=your_server_ip

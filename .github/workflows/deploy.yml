@@ -71,7 +71,7 @@ jobs:
             cat > docker-compose.yml <<'COMPOSE'
             services:
               app:
-                image: ${DOCR_IMAGE:-registry.digitalocean.com/grupo-la-fe-reg/grupo-la-fe:latest}
+                image: ${DOCR_IMAGE:-registry.digitalocean.com/steven-portfolio-reg/grupo-la-fe:latest}
                 container_name: grupo-la-fe-app
                 env_file: .env
                 restart: unless-stopped
