@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Heart, Menu, Phone, MapPin, X } from "lucide-react"
+import { Menu, Phone, MapPin, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function Header() {
@@ -34,8 +34,12 @@ export function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="relative">
-              <div className="w-14 h-14 gradient-accent rounded-2xl flex items-center justify-center shadow-lg shadow-accent/25">
-                <Heart className="w-7 h-7 text-white" fill="currentColor" />
+              <div className="w-14 h-14 gradient-accent rounded-2xl flex items-center justify-center shadow-lg shadow-accent/25 overflow-hidden">
+                <img
+                  src="/logo.png"
+                  alt="Grupo La Fe Cartagena"
+                  className="w-8 h-8 object-contain"
+                />
               </div>
               <div className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center">
                 <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
