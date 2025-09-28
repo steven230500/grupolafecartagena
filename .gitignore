@@ -31,3 +31,8 @@ next-env.d.ts
 
 # docker
 docker-compose.override.yml
+
+# SSH keys (security - never commit private keys)
+gh-actions
+gh-actions.b64
+gh-actions.pub
