@@ -46,6 +46,7 @@ jobs:
             cd "$SERVER_PATH"
 
             # Copiar archivos desde el repo (más simple y confiable)
+            rm -rf temp_repo
             git clone https://github.com/steven230500/grupolafecartagena.git temp_repo
             cp temp_repo/docker-compose.prod.yml docker-compose.yml
             rm -rf temp_repo
