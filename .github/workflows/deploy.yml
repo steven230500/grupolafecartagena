@@ -1,0 +1,103 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  REGISTRY: registry.digitalocean.com
+  IMAGE_NAME: grupo-la-fe
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set DOCR repo
+        id: meta
+        run: |
+          echo "docr=${{ env.REGISTRY }}/${{ secrets.DOCR_REGISTRY }}/${{ env.IMAGE_NAME }}" >> $GITHUB_OUTPUT
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_TOKEN }}
+
+      - name: Login to DOCR
+        run: doctl registry login
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build & Push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ${{ steps.meta.outputs.docr }}:latest
+            ${{ steps.meta.outputs.docr }}:${{ github.sha }}
+
+      - name: Deploy remoto (escribe archivos y levanta)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e
+
+            # Instalar Docker si falta
+            docker --version || curl -fsSL https://get.docker.com | sh
+
+            # Asegurar "docker compose" o "docker-compose"
+            if docker compose version >/dev/null 2>&1; then
+              COMPOSE="docker compose"
+            else
+              sudo curl -L "https://github.com/docker/compose/releases/download/v2.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+              sudo chmod +x /usr/local/bin/docker-compose
+              COMPOSE="docker-compose"
+            fi
+
+            # Carpeta de deploy
+            mkdir -p ${{ secrets.SERVER_PATH }}
+            cd ${{ secrets.SERVER_PATH }}
+
+            # docker-compose.yml (solo app, sin Caddy)
+            cat > docker-compose.yml <<'COMPOSE'
+            services:
+              app:
+                image: ${DOCR_IMAGE:-registry.digitalocean.com/grupo-la-fe-reg/grupo-la-fe:latest}
+                container_name: grupo-la-fe-app
+                env_file: .env
+                restart: unless-stopped
+                networks:
+                  - infra_infra_network
+
+            networks:
+              infra_infra_network:
+                external: true
+            COMPOSE
+
+            # .env (runtime)
+            cat > .env <<'ENVVARS'
+            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+            CONTACT_TO=${{ secrets.CONTACT_TO }}
+            CONTACT_FROM=${{ secrets.CONTACT_FROM }}
+            RECAPTCHA_SECRET_KEY=${{ secrets.RECAPTCHA_SECRET_KEY }}
+            NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${{ secrets.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}
+            ENVVARS
+
+            # Login al registry y levantar
+            echo "${{ secrets.DO_TOKEN }}" | docker login registry.digitalocean.com -u doctl --password-stdin
+            export DOCR_IMAGE=${{ env.REGISTRY }}/${{ secrets.DOCR_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+            $COMPOSE pull
+            $COMPOSE up -d --remove-orphans
+
+            echo "=== Archivos ==="; ls -la
+            echo "=== Estado ==="; $COMPOSE ps

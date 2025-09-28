@@ -1,123 +1,138 @@
-# Grupo La Fe Cartagena — Jugadores Anónimos
+# Grupo La Fe - Next.js Application
 
-Landing page moderna y responsive para el grupo local **Grupo La Fe Cartagena**. Incluye hero con CTA, secciones de información (qué es el juego compulsivo, programa de recuperación), beneficios, contacto con formulario, mapa incrustado y footer.
+Aplicación web para Grupo La Fe Cartagena, organización de apoyo para la recuperación de la ludopatía.
 
-> **Dominio:** `grupolafecartagena.org`  
-> **Contacto de ayuda:** **+57 320 3639742** (llamada y WhatsApp)
+## 🚀 Características
 
-## 🧱 Stack
-- **Next.js 14** (App Router)
-- **React 18**
-- **Tailwind CSS v4**
-- **Radix UI + shadcn/ui** (componentes básicos: Button, Card, etc.)
-- **Vercel Analytics** (opcional)
+- **Next.js 14** con App Router
+- **TypeScript** para desarrollo seguro
+- **Tailwind CSS** para estilos
+- **Docker** para despliegue
+- **Caddy** como servidor web con HTTPS automático
 
-## ▶️ Cómo correr el proyecto (pnpm)
+## 🛠️ Desarrollo Local
+
 ```bash
+# Instalar dependencias
 pnpm install
-pnpm dev        # http://localhost:3000
+
+# Ejecutar en modo desarrollo
+pnpm dev
+
+# Construir para producción
 pnpm build
-pnpm start
 ```
 
-> Este proyecto usa **pnpm**. Evita `npm` o `yarn` para no generar locks distintos.
+## 🐳 Docker
 
-## 📂 Estructura relevante
-```
-app/
-  layout.tsx        # Metadatos y layout global
-  page.tsx          # Composición de secciones
-components/
-  hero-section.tsx
-  compulsive-gambling-section.tsx
-  recovery-program-section.tsx
-  benefits-section.tsx
-  contact-section.tsx
-  map-section.tsx
-  about-section.tsx
-  header.tsx
-  footer.tsx
-  floating-action-button.tsx
-  ui/               # Librería de componentes shadcn (solo algunos en uso)
-lib/
-  utils.ts          # Helper de clases (cn)
-public/
-  placeholder-*     # Íconos/imagenes temporales
-```
-
-## 🗺️ Mapa
-La sección **Ubicación** incrusta Google Maps usando el enlace directo:
-```
-https://maps.app.goo.gl/2MSoNsTQwS23AnW1A
-```
-
-## 📨 Formulario de Contacto
-- Campos: **nombre, correo, mensaje**.
-- Pendiente de integrar envío real (por ejemplo con **Resend**, **EmailJS** o API propia).  
-  - Recomendado: crear un endpoint en `app/api/contact/route.ts` y consumirlo desde el formulario.
-
-## 🔒 Contenido y marca
-- No se usan logos oficiales de Jugadores Anónimos **Colombia** ni de **AA**.
-- Ícono temporal en el header hasta tener el logo oficial del grupo.
-- Frase de confidencialidad en el footer.
-
-## 🔍 SEO
-- **Título:** "Grupo La Fe Cartagena - Jugadores Anónimos"
-- **Descripción:** Grupo de apoyo para la recuperación de la ludopatía en Cartagena. Programa de 12 pasos, reuniones confidenciales y acompañamiento.
-- **Palabras clave:** jugadores anónimos, ludopatía, apoyo, recuperación, Cartagena, grupo la fe
-- **Idioma:** Español (es)
-- **Open Graph:** Configurado para compartir en redes sociales con imagen y metadatos.
-- **Twitter Cards:** Optimizado para tweets con imagen grande.
-- **Structured Data:** JSON-LD para organización, incluyendo nombre, descripción, teléfono y ubicación.
-- Meta tags configuradas en `app/layout.tsx` para toda la aplicación.
-
-## 🧹 Limpieza y reducción (opcional)
-Actualmente hay varias dependencias y componentes **incluidos por defecto** que **no se usan** en la landing. Para aligerar el bundle puedes eliminar:
-
-### Paquetes claramente no usados ahora
-- `zod`
-- `@hookform/resolvers`
-- `date-fns`
-- `tailwindcss-animate`
-- `tw-animate-css`
-- `autoprefixer` (Tailwind v4 ya no lo requiere en `postcss.config`)
-- `sonner` y `next-themes` *(solo si no vas a usar el toaster/temas)*
-- `recharts` *(no se renderiza ningún gráfico)*
-- `embla-carousel-react` *(el carrusel de testimonios es custom)*
-- `react-day-picker`
-- `react-resizable-panels`
-- `cmdk`
-- `input-otp`
-- `vaul`
-
-> **Nota:** `react-dom` es requerido por Next.js aunque no se importe manualmente. **No lo elimines.**
-
-### Componentes `components/ui/*` no referenciados por la app
-Puedes borrar los que **no** uses para evitar arrastrar dependencias. Por ejemplo:
-- `calendar.tsx`, `chart.tsx`, `command.tsx`, `drawer.tsx`, `input-otp.tsx`, `menubar.tsx`, `navigation-menu.tsx`,
-  `pagination.tsx`, `resizable.tsx`, `sidebar.tsx`, `slider.tsx`, `tabs.tsx`, `sonner.tsx`, `toaster.tsx`,
-  `carousel.tsx`, `table.tsx`, `progress.tsx`, `radio-group.tsx`, `select.tsx`, `switch.tsx`, etc.
-
-> Los componentes **en uso** en esta landing incluyen principalmente: `button.tsx`, `card.tsx`, `badge.tsx`, `input.tsx`, `textarea.tsx`. Revisa `app/page.tsx` y las secciones en `components/` para verificar.
-
-### Comandos para remover (ejemplos)
+### Construir imagen
 ```bash
-pnpm remove zod @hookform/resolvers date-fns tailwindcss-animate tw-animate-css autoprefixer   sonner next-themes recharts embla-carousel-react react-day-picker react-resizable-panels cmdk input-otp vaul
+docker build -t grupo-la-fe .
 ```
-> Ejecuta en tu rama de trabajo y prueba el proyecto (`pnpm dev`) antes de hacer commit.
+
+### Ejecutar con Docker Compose
+```bash
+docker compose up -d
+```
 
 ## 🚀 Despliegue
-- Recomendado en **Vercel**.
-- `NEXT_PUBLIC_` vars: no se requieren por ahora.  
-- Agrega el dominio **grupolafecartagena.org** en el proyecto de Vercel y configura DNS.
 
-## 👤 Créditos
-**Desarrollado por [stevenpatino.dev](https://stevenpatino.dev)**
+### Infraestructura Unificada
 
----
+Este proyecto forma parte de una infraestructura unificada que comparte un solo servidor Caddy para múltiples dominios:
 
-### Roadmap corto
-- Integrar envío real del formulario (Resend / API propia).
-- Agregar testimonios gestionables desde un JSON o CMS ligero.
-- Reemplazar ícono por el logo oficial del grupo cuando esté listo.
-- Añadir página de “Reuniones” con horarios y tipo (presencial/virtual).
+- **grupolafecartagena.org** → Grupo La Fe
+- **stevenpatino.dev** → Portfolio personal
+- **api.hypeatlas.app** → API de HypeAtlas
+
+### Estructura de Infraestructura
+
+```
+/opt/infra/
+├── Caddyfile              # Caddyfile maestro
+├── sites/                 # Configuraciones por sitio
+│   ├── grupo-la-fe.caddy
+│   ├── steven-portfolio.caddy
+│   └── hypeatlas-api.caddy
+└── docker-compose.yml     # Caddy maestro
+```
+
+### Variables de Entorno
+
+Crear archivo `.env` con:
+
+```env
+RESEND_API_KEY=your_resend_api_key
+CONTACT_TO=contact@example.com
+CONTACT_FROM=noreply@example.com
+RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
+```
+
+### Secrets de GitHub (para CI/CD)
+
+Configurar en **Settings > Secrets and variables > Actions**:
+
+```bash
+# DigitalOcean
+DO_TOKEN=your_digitalocean_token
+DOCR_REGISTRY=grupo-la-fe-reg
+
+# SSH Access
+SSH_HOST=your_server_ip
+SSH_USER=root
+SSH_KEY=your_private_ssh_key
+
+# Server Path
+SERVER_PATH=/opt/grupo-la-fe
+
+# Application Secrets
+RESEND_API_KEY=your_resend_api_key
+CONTACT_TO=contact@example.com
+CONTACT_FROM=noreply@example.com
+RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
+```
+
+## 📦 CI/CD
+
+### GitHub Actions
+
+El proyecto incluye pipelines automatizados para:
+- **Build** y **push** de imágenes Docker
+- **Deploy** automático al servidor
+- **Configuración** automática de Caddy
+
+### Secrets Requeridos
+
+Configurar en GitHub Secrets:
+- `DO_TOKEN` - Token de DigitalOcean
+- `DOCR_REGISTRY` - Nombre del registro Docker
+- `SSH_HOST` - IP del servidor
+- `SSH_USER` - Usuario SSH
+- `SSH_KEY` - Clave privada SSH
+- `SERVER_PATH` - Ruta de despliegue
+
+## 🔧 Arquitectura
+
+### Componentes Principales
+
+- **Header** - Navegación con scroll suave
+- **Hero Section** - Sección principal
+- **About Section** - Información del grupo
+- **Contact Section** - Formulario y WhatsApp
+- **Map Section** - Ubicación
+- **Footer** - Información de contacto
+
+### Funcionalidades
+
+- ✅ Navegación responsive
+- ✅ Formulario de contacto
+- ✅ Integración con WhatsApp
+- ✅ Scroll suave entre secciones
+- ✅ Diseño accesible
+- ✅ Optimización SEO
+
+## 📄 Licencia
+
+Este proyecto es privado y propiedad de Grupo La Fe Cartagena.
