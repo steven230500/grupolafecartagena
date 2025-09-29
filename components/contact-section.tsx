@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Mail, Phone, MessageCircle, CheckCircle } from "lucide-react"
 import { ScrollAnimation } from "@/components/scroll-animations"
+import { CONTACT_INFO, WHATSAPP_MESSAGES } from "@/lib/constants"
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -20,8 +21,8 @@ export function ContactSection() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const phoneNumber = "+573243217980"
-  const whatsappMessage = "Hola, me gustaría obtener información sobre el Grupo La Fe Cartagena"
+  const phoneNumber = CONTACT_INFO.phone
+  const whatsappMessage = WHATSAPP_MESSAGES.default
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -33,7 +34,7 @@ export function ContactSection() {
     console.log("Form submitted:", formData)
     setIsSubmitted(true)
     setIsSubmitting(false)
-    setFormData({ name: "", email: "", message: "" })
+    setFormData({ name: "", email: CONTACT_INFO.email, message: "" })
 
     // Reset success message after 5 seconds
     setTimeout(() => setIsSubmitted(false), 5000)

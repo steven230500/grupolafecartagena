@@ -3,13 +3,11 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Phone, MessageCircle, X } from "lucide-react"
+import { CONTACT_INFO, WHATSAPP_MESSAGES } from "@/lib/constants"
 
 export function FloatingActionButton() {
   const [isOpen, setIsOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-
-  const phoneNumber = "+573243217980"
-  const whatsappMessage = "Hola, me gustaría obtener información sobre el Grupo La Fe Cartagena"
 
   useEffect(() => {
     const checkMobile = () => {
@@ -35,7 +33,7 @@ export function FloatingActionButton() {
               asChild
             >
               <a
-                href={`https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(whatsappMessage)}`}
+                href={`https://wa.me/${CONTACT_INFO.phone.replace("+", "")}?text=${encodeURIComponent(WHATSAPP_MESSAGES.help)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center"
@@ -49,7 +47,7 @@ export function FloatingActionButton() {
               className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg rounded-full w-14 h-14 p-0"
               asChild
             >
-              <a href={`tel:${phoneNumber}`} className="flex items-center justify-center">
+              <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center justify-center">
                 <Phone className="w-6 h-6" />
               </a>
             </Button>

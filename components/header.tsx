@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Menu, Phone, MapPin, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { CONTACT_INFO, WHATSAPP_MESSAGES, NAVIGATION } from "@/lib/constants"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -16,9 +17,7 @@ export function Header() {
   }
 
   const openWhatsApp = () => {
-    const phoneNumber = "+573243217980"
-    const message = "Hola, me gustaría obtener información sobre el Grupo La Fe Cartagena"
-    const whatsappUrl = `https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(message)}`
+    const whatsappUrl = `https://wa.me/${CONTACT_INFO.phone.replace("+", "")}?text=${encodeURIComponent(WHATSAPP_MESSAGES.help)}`
     window.open(whatsappUrl, "_blank")
     setIsMenuOpen(false)
   }
@@ -62,7 +61,7 @@ export function Header() {
               variant="ghost"
               size="sm"
               className="text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm border border-white/20"
-              onClick={() => scrollToSection("map-section")}
+              onClick={() => scrollToSection(NAVIGATION.sections.map.replace("#", ""))}
             >
               <MapPin className="w-4 h-4 mr-2" />
               Ubicación
@@ -71,7 +70,7 @@ export function Header() {
               variant="ghost"
               size="sm"
               className="text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm border border-white/20"
-              onClick={() => scrollToSection("contact-section")}
+              onClick={() => scrollToSection(NAVIGATION.sections.contact.replace("#", ""))}
             >
               <Phone className="w-4 h-4 mr-2" />
               Contacto
@@ -101,7 +100,7 @@ export function Header() {
                 <Button
                   variant="ghost"
                   className="w-full justify-start text-foreground hover:bg-accent/10"
-                  onClick={() => scrollToSection("map-section")}
+                  onClick={() => scrollToSection(NAVIGATION.sections.map.replace("#", ""))}
                 >
                   <MapPin className="w-4 h-4 mr-3" />
                   Ubicación
@@ -109,7 +108,7 @@ export function Header() {
                 <Button
                   variant="ghost"
                   className="w-full justify-start text-foreground hover:bg-accent/10"
-                  onClick={() => scrollToSection("contact-section")}
+                  onClick={() => scrollToSection(NAVIGATION.sections.contact.replace("#", ""))}
                 >
                   <Phone className="w-4 h-4 mr-3" />
                   Contacto

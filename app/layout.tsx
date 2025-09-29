@@ -5,13 +5,15 @@ import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import Script from "next/script"
+import { SITE_CONFIG, CONTACT_INFO, METADATA, SOCIAL_LINKS } from "@/lib/constants"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Grupo La Fe Cartagena - Jugadores Anónimos",
-  description:
-    "Grupo de apoyo para la recuperación de la ludopatía en Cartagena. Programa de 12 pasos, reuniones confidenciales y acompañamiento.",
-  keywords: "jugadores anónimos, ludopatía, apoyo, recuperación, Cartagena, grupo la fe",
+  title: METADATA.title,
+  description: SITE_CONFIG.description,
+  keywords: METADATA.keywords,
+  authors: [{ name: METADATA.author }],
+  robots: METADATA.robots,
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -37,16 +39,16 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Grupo La Fe Cartagena - Jugadores Anónimos",
-    description: "Grupo de apoyo para la recuperación de la ludopatía en Cartagena. Programa de 12 pasos, reuniones confidenciales y acompañamiento.",
-    url: "https://grupolafecartagena.org",
-    siteName: "Grupo La Fe Cartagena",
+    title: METADATA.title,
+    description: SITE_CONFIG.description,
+    url: SITE_CONFIG.url,
+    siteName: SITE_CONFIG.name,
     images: [
       {
-        url: "/logo.png",
+        url: SITE_CONFIG.ogImage,
         width: 1200,
         height: 630,
-        alt: "Logo Grupo La Fe Cartagena",
+        alt: `Logo ${SITE_CONFIG.name}`,
       },
     ],
     locale: "es_CO",
@@ -54,9 +56,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Grupo La Fe Cartagena - Jugadores Anónimos",
-    description: "Grupo de apoyo para la recuperación de la ludopatía en Cartagena. Programa de 12 pasos, reuniones confidenciales y acompañamiento.",
-    images: ["/logo.png"],
+    title: METADATA.title,
+    description: SITE_CONFIG.description,
+    images: [SITE_CONFIG.ogImage],
   },
   manifest: "/site.webmanifest",
 }
@@ -76,18 +78,17 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "Grupo La Fe Cartagena",
-              "description": "Grupo de apoyo para la recuperación de la ludopatía en Cartagena. Programa de 12 pasos, reuniones confidenciales y acompañamiento.",
-              "url": "https://grupolafecartagena.org",
-              "telephone": "+57 324 321 7980",
+              "name": SITE_CONFIG.name,
+              "description": SITE_CONFIG.description,
+              "url": SITE_CONFIG.url,
+              "telephone": CONTACT_INFO.phone,
+              "email": CONTACT_INFO.email,
               "address": {
                 "@type": "PostalAddress",
-                "addressLocality": "Cartagena",
-                "addressCountry": "CO"
+                "addressLocality": CONTACT_INFO.address.locality,
+                "addressCountry": CONTACT_INFO.address.country
               },
-              "sameAs": [
-                // agregar redes si hay
-              ]
+              "sameAs": Object.values(SOCIAL_LINKS)
             }),
           }}
         />
