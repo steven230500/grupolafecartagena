@@ -3,7 +3,7 @@ import { Phone, MessageCircle, ArrowDown } from "lucide-react"
 import { ScrollAnimation } from "@/components/scroll-animations"
 
 export function HeroSection() {
-  const phoneNumber = "+573243217980"
+  const phoneNumber = "+573014585476"
   const whatsappMessage = "Hola, me gustaría obtener información sobre el Grupo La Fe Cartagena"
 
   return (
