@@ -88,7 +88,46 @@ export default function RootLayout({
                 "addressLocality": CONTACT_INFO.address.locality,
                 "addressCountry": CONTACT_INFO.address.country
               },
-              "sameAs": Object.values(SOCIAL_LINKS)
+              "sameAs": Object.values(SOCIAL_LINKS),
+              "serviceType": "Apoyo para ludopatía",
+              "areaServed": {
+                "@type": "City",
+                "name": "Cartagena",
+                "addressCountry": "CO"
+              },
+              "keywords": "jugadores anónimos Cartagena, jugadores compulsivos Cartagena, ludopatía Cartagena"
+            }),
+          }}
+        />
+        <Script
+          id="local-business-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "name": SITE_CONFIG.name,
+              "description": SITE_CONFIG.description,
+              "url": SITE_CONFIG.url,
+              "telephone": CONTACT_INFO.phone,
+              "email": CONTACT_INFO.email,
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": CONTACT_INFO.address.locality,
+                "addressCountry": CONTACT_INFO.address.country
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": "10.3997",
+                "longitude": "-75.5144"
+              },
+              "areaServed": {
+                "@type": "City",
+                "name": "Cartagena",
+                "addressCountry": "CO"
+              },
+              "serviceType": ["Apoyo psicológico", "Grupo de apoyo", "Recuperación de ludopatía"],
+              "priceRange": "$$"
             }),
           }}
         />

@@ -40,8 +40,8 @@ export const NAVIGATION = {
 } as const;
 
 export const METADATA = {
-  title: "Grupo La Fe Cartagena - Jugadores Anónimos",
-  keywords: "jugadores anónimos, ludopatía, apoyo, recuperación, Cartagena, grupo la fe",
+  title: "Jugadores Anónimos Cartagena - Grupo La Fe | Apoyo para Jugadores Compulsivos",
+  keywords: "jugadores anónimos Cartagena, jugadores compulsivos Cartagena, ludopatía Cartagena, recuperación juego compulsivo Cartagena, grupo la fe Cartagena, apoyo ludopatía Cartagena, reuniones anónimas Cartagena",
   author: "Grupo La Fe Cartagena",
   robots: "index, follow",
 } as const;

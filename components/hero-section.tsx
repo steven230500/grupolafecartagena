@@ -20,20 +20,20 @@ export function HeroSection() {
       <div className="relative z-10 container mx-auto max-w-5xl text-center px-4 py-20">
         <ScrollAnimation animation="fade-in" delay={200}>
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-foreground mb-6 text-balance leading-tight">
-            No estás <span className="text-primary">solo</span>
+            Jugadores Anónimos <span className="text-primary">Cartagena</span>
           </h1>
         </ScrollAnimation>
 
         <ScrollAnimation animation="slide-in-up" delay={400}>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-accent mb-8 text-balance">
-            Apoyo para dejar el juego compulsivo
+            Apoyo para jugadores compulsivos en Cartagena
           </h2>
         </ScrollAnimation>
 
         <ScrollAnimation animation="slide-in-up" delay={600}>
           <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-4xl mx-auto text-pretty leading-relaxed">
             Somos <strong className="text-primary">Grupo La Fe Cartagena</strong>, parte de la comunidad internacional
-            de Jugadores Anónimos. Ofrecemos un espacio seguro y confidencial para tu recuperación.
+            de Jugadores Anónimos. Ofrecemos reuniones confidenciales para jugadores compulsivos en Cartagena.
           </p>
         </ScrollAnimation>
 
