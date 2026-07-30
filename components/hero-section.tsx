@@ -1,10 +1,14 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Phone, MessageCircle, ArrowDown } from "lucide-react"
 import { ScrollAnimation } from "@/components/scroll-animations"
+import { CONTACT_INFO, WHATSAPP_MESSAGES } from "@/lib/constants"
+import { trackWhatsAppClick } from "@/lib/analytics"
 
 export function HeroSection() {
-  const phoneNumber = "+573014585476"
-  const whatsappMessage = "Hola, me gustaría obtener información sobre el Grupo La Fe Cartagena"
+  const phoneNumber = CONTACT_INFO.phone
+  const whatsappMessage = WHATSAPP_MESSAGES.default
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -18,26 +22,26 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 container mx-auto max-w-5xl text-center px-4 py-20">
-        <ScrollAnimation animation="fade-in" delay={200}>
+        <ScrollAnimation animation="fade-in" delay={0} duration={400}>
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-foreground mb-6 text-balance leading-tight">
             Jugadores Anónimos <span className="text-primary">Cartagena</span>
           </h1>
         </ScrollAnimation>
 
-        <ScrollAnimation animation="slide-in-up" delay={400}>
+        <ScrollAnimation animation="slide-in-up" delay={60} duration={400}>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-accent mb-8 text-balance">
             Apoyo para jugadores compulsivos en Cartagena
           </h2>
         </ScrollAnimation>
 
-        <ScrollAnimation animation="slide-in-up" delay={600}>
+        <ScrollAnimation animation="slide-in-up" delay={120} duration={400}>
           <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-4xl mx-auto text-pretty leading-relaxed">
             Somos <strong className="text-primary">Grupo La Fe Cartagena</strong>, parte de la comunidad internacional
             de Jugadores Anónimos. Ofrecemos reuniones confidenciales para jugadores compulsivos en Cartagena.
           </p>
         </ScrollAnimation>
 
-        <ScrollAnimation animation="slide-in-up" delay={800}>
+        <ScrollAnimation animation="slide-in-up" delay={180} duration={400}>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
             <Button
               size="lg"
@@ -61,6 +65,7 @@ export function HeroSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3"
+                onClick={() => trackWhatsAppClick("hero")}
               >
                 <MessageCircle className="w-6 h-6" />
                 Escríbenos
@@ -69,15 +74,15 @@ export function HeroSection() {
           </div>
         </ScrollAnimation>
 
-        <ScrollAnimation animation="fade-in" delay={1000}>
+        <ScrollAnimation animation="fade-in" delay={240} duration={400}>
           <div className="bg-card/90 backdrop-blur-md border border-border/50 rounded-2xl p-8 inline-block shadow-2xl">
             <p className="text-sm text-muted-foreground mb-3">Línea de ayuda confidencial</p>
-            <p className="text-3xl font-bold text-foreground mb-2">{phoneNumber}</p>
+            <p className="text-3xl font-bold text-foreground mb-2">{CONTACT_INFO.phoneDisplay}</p>
             <p className="text-sm text-muted-foreground">Disponible para ti • Completamente confidencial</p>
           </div>
         </ScrollAnimation>
 
-        <ScrollAnimation animation="fade-in" delay={1200}>
+        <ScrollAnimation animation="fade-in" delay={300} duration={400}>
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
             <ArrowDown className="w-6 h-6 text-muted-foreground" />
           </div>

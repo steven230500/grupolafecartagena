@@ -84,6 +84,7 @@ export function TestimonialCarousel() {
           variant="outline"
           size="sm"
           onClick={goToPrevious}
+          aria-label="Testimonio anterior"
           className="rounded-full w-10 h-10 p-0 bg-transparent"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -94,6 +95,8 @@ export function TestimonialCarousel() {
             <button
               key={index}
               onClick={() => goToSlide(index)}
+              aria-label={`Ir al testimonio ${index + 1}`}
+              aria-current={index === currentIndex}
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 index === currentIndex ? "bg-primary w-6" : "bg-primary/30"
               }`}
@@ -101,7 +104,13 @@ export function TestimonialCarousel() {
           ))}
         </div>
 
-        <Button variant="outline" size="sm" onClick={goToNext} className="rounded-full w-10 h-10 p-0 bg-transparent">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={goToNext}
+          aria-label="Siguiente testimonio"
+          className="rounded-full w-10 h-10 p-0 bg-transparent"
+        >
           <ChevronRight className="w-4 h-4" />
         </Button>
       </div>

@@ -1,13 +1,17 @@
+"use client"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Phone, MessageCircle, CheckCircle } from "lucide-react"
 import { ScrollAnimation } from "@/components/scroll-animations"
 import { WaveSeparator } from "@/components/wave-separator"
+import { CONTACT_INFO, WHATSAPP_MESSAGES } from "@/lib/constants"
+import { trackWhatsAppClick } from "@/lib/analytics"
 
 export function RecoveryProgramSection() {
-  const phoneNumber = "+573014585476"
-  const whatsappMessage = "Me interesa conocer más sobre el programa de 12 pasos"
+  const phoneNumber = CONTACT_INFO.phone
+  const whatsappMessage = WHATSAPP_MESSAGES.program
 
   const steps = [
     {
@@ -57,7 +61,7 @@ export function RecoveryProgramSection() {
   return (
     <>
       <WaveSeparator flip />
-      <section className="py-16 px-4 relative">
+      <section id="recovery-program-section" className="py-16 px-4 relative">
         <div className="container mx-auto max-w-6xl">
           <ScrollAnimation>
             <div className="text-center mb-12">
@@ -71,7 +75,7 @@ export function RecoveryProgramSection() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {steps.map((step, index) => (
-              <ScrollAnimation key={step.number} delay={index * 0.1}>
+              <ScrollAnimation key={step.number} delay={index * 60}>
                 <Card className="border-primary/20 hover:border-primary/40 hover:shadow-lg transition-all duration-300 h-full">
                   <CardHeader>
                     <div className="flex items-center gap-3">
@@ -89,7 +93,7 @@ export function RecoveryProgramSection() {
             ))}
           </div>
 
-          <ScrollAnimation delay={0.8}>
+          <ScrollAnimation delay={400}>
             <Card className="bg-accent/5 border-accent/20 mb-8 hover:shadow-lg transition-all duration-300">
               <CardHeader>
                 <CardTitle className="text-accent">Los 12 Pasos Completos</CardTitle>
@@ -112,7 +116,7 @@ export function RecoveryProgramSection() {
             </Card>
           </ScrollAnimation>
 
-          <ScrollAnimation delay={1.0}>
+          <ScrollAnimation delay={500}>
             <div className="text-center bg-primary/5 rounded-xl p-8 hover:bg-primary/10 transition-all duration-300">
               <h3 className="text-2xl font-semibold text-foreground mb-4">¿Listo para comenzar tu recuperación?</h3>
               <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
@@ -142,6 +146,7 @@ export function RecoveryProgramSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2"
+                    onClick={() => trackWhatsAppClick("recovery_program")}
                   >
                     <MessageCircle className="w-5 h-5" />
                     Más Información

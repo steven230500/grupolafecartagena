@@ -1,8 +1,9 @@
 import { Heart, Shield } from "lucide-react"
+import { CONTACT_INFO } from "@/lib/constants"
 
 export function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground py-12 px-4">
+    <footer className="bg-primary text-primary-foreground pt-12 pb-28 md:pb-12 px-4">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
@@ -33,7 +34,12 @@ export function Footer() {
 
             <div>
               <h4 className="font-semibold text-primary-foreground mb-2">Contacto de Emergencia</h4>
-              <p className="mb-2">Línea de ayuda: +57 320 3639742</p>
+              <p className="mb-2">
+                Línea de ayuda:{" "}
+                <a href={`tel:${CONTACT_INFO.phone}`} className="underline hover:text-primary-foreground">
+                  {CONTACT_INFO.phoneDisplay}
+                </a>
+              </p>
               <p className="text-xs">
                 Disponible para crisis y apoyo inmediato. Si estás en una situación de emergencia, no dudes en llamar.
               </p>

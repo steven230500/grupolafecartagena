@@ -59,7 +59,7 @@ export function BenefitsSection() {
             {benefits.map((benefit, index) => {
               const IconComponent = benefit.icon
               return (
-                <ScrollAnimation key={index} animation="slide-in-up" delay={index * 100}>
+                <ScrollAnimation key={index} animation="slide-in-up" delay={index * 60}>
                   <Card className="border-accent/20 hover:border-accent/40 transition-all duration-300 hover:shadow-lg hover:scale-105 h-full">
                     <CardHeader>
                       <div className="flex items-center gap-3">

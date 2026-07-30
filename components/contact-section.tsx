@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Mail, Phone, MessageCircle, CheckCircle } from "lucide-react"
+import { Mail, Phone, MessageCircle } from "lucide-react"
 import { ScrollAnimation } from "@/components/scroll-animations"
 import { CONTACT_INFO, WHATSAPP_MESSAGES } from "@/lib/constants"
+import { trackWhatsAppClick } from "@/lib/analytics"
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -18,26 +19,16 @@ export function ContactSection() {
     message: "",
   })
 
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
   const phoneNumber = CONTACT_INFO.phone
   const whatsappMessage = WHATSAPP_MESSAGES.default
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    console.log("Form submitted:", formData)
-    setIsSubmitted(true)
-    setIsSubmitting(false)
-    setFormData({ name: "", email: CONTACT_INFO.email, message: "" })
-
-    // Reset success message after 5 seconds
-    setTimeout(() => setIsSubmitted(false), 5000)
+    const composedMessage = `Hola, soy ${formData.name}. ${formData.message}\n\n(Correo de contacto: ${formData.email})`
+    trackWhatsAppClick("contact_form")
+    window.open(`https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(composedMessage)}`, "_blank")
+    setFormData({ name: "", email: "", message: "" })
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -63,13 +54,7 @@ export function ContactSection() {
           {/* Contact Information */}
           <ScrollAnimation animation="slide-in-left">
             <div className="space-y-6">
-              <Card
-                className="hover:shadow-lg transition-shadow duration-300 cursor-pointer"
-                onClick={() => {
-                  const whatsappUrl = `https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(whatsappMessage)}`
-                  window.open(whatsappUrl, "_blank")
-                }}
-              >
+              <Card className="hover:shadow-lg transition-shadow duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Phone className="w-5 h-5 text-accent" />
@@ -78,7 +63,7 @@ export function ContactSection() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="text-center space-y-2">
-                    <div className="text-2xl font-bold text-accent">{phoneNumber}</div>
+                    <div className="text-2xl font-bold text-accent">{CONTACT_INFO.phoneDisplay}</div>
                     <div className="text-sm text-muted-foreground">
                       Disponible para ti • Completamente confidencial
                     </div>
@@ -105,6 +90,7 @@ export function ContactSection() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2"
+                        onClick={() => trackWhatsAppClick("contact_card")}
                       >
                         <MessageCircle className="w-4 h-4" />
                         WhatsApp
@@ -134,15 +120,10 @@ export function ContactSection() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {isSubmitted && (
-                  <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <div>
-                      <p className="text-green-800 font-medium">¡Mensaje enviado exitosamente!</p>
-                      <p className="text-green-600 text-sm">Nos pondremos en contacto contigo pronto.</p>
-                    </div>
-                  </div>
-                )}
+                <p className="text-sm text-muted-foreground mb-4">
+                  Al enviar, se abrirá WhatsApp con tu mensaje listo para enviar directamente a nuestra línea de
+                  ayuda.
+                </p>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
@@ -154,7 +135,6 @@ export function ContactSection() {
                       onChange={handleChange}
                       required
                       className="bg-background transition-all duration-300 focus:scale-105"
-                      disabled={isSubmitting}
                     />
                   </div>
 
@@ -167,7 +147,6 @@ export function ContactSection() {
                       onChange={handleChange}
                       required
                       className="bg-background transition-all duration-300 focus:scale-105"
-                      disabled={isSubmitting}
                     />
                   </div>
 
@@ -180,16 +159,15 @@ export function ContactSection() {
                       required
                       rows={4}
                       className="bg-background resize-none transition-all duration-300 focus:scale-105"
-                      disabled={isSubmitting}
                     />
                   </div>
 
                   <Button
                     type="submit"
                     className="w-full bg-accent hover:bg-accent/90 text-accent-foreground transition-all duration-300 hover:scale-105"
-                    disabled={isSubmitting}
                   >
-                    {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
+                    <MessageCircle className="w-4 h-4" />
+                    Enviar por WhatsApp
                   </Button>
                 </form>
               </CardContent>

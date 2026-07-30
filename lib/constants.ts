@@ -9,7 +9,8 @@ export const SITE_CONFIG = {
 } as const;
 
 export const CONTACT_INFO = {
-  phone: "+573014585476",
+  phone: "+573203639742",
+  phoneDisplay: "+57 320 3639742",
   email: "contact@grupolafecartagena.org",
   address: {
     locality: "Cartagena",

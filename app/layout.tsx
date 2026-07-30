@@ -6,9 +6,11 @@ import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import Script from "next/script"
 import { SITE_CONFIG, CONTACT_INFO, METADATA, SOCIAL_LINKS } from "@/lib/constants"
+import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_CONFIG.url),
   title: METADATA.title,
   description: SITE_CONFIG.description,
   keywords: METADATA.keywords,
@@ -69,8 +71,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
         <Script
           id="structured-data"
           type="application/ld+json"
@@ -133,6 +136,7 @@ export default function RootLayout({
         />
         <Suspense fallback={null}>{children}</Suspense>
         <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )

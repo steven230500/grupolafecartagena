@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Phone, MessageCircle, X } from "lucide-react"
 import { CONTACT_INFO, WHATSAPP_MESSAGES } from "@/lib/constants"
+import { trackWhatsAppClick } from "@/lib/analytics"
 
 export function FloatingActionButton() {
   const [isOpen, setIsOpen] = useState(false)
@@ -37,6 +38,8 @@ export function FloatingActionButton() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center"
+                aria-label="Escribir por WhatsApp"
+                onClick={() => trackWhatsAppClick("floating_button")}
               >
                 <MessageCircle className="w-6 h-6" />
               </a>
@@ -47,7 +50,7 @@ export function FloatingActionButton() {
               className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg rounded-full w-14 h-14 p-0"
               asChild
             >
-              <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center justify-center">
+              <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center justify-center" aria-label="Llamar ahora">
                 <Phone className="w-6 h-6" />
               </a>
             </Button>
@@ -57,6 +60,8 @@ export function FloatingActionButton() {
         <Button
           size="lg"
           onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Cerrar opciones de contacto" : "Abrir opciones de contacto"}
+          aria-expanded={isOpen}
           className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg rounded-full w-16 h-16 p-0 transition-transform duration-300"
           style={{ transform: isOpen ? "rotate(45deg)" : "rotate(0deg)" }}
         >

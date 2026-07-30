@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Menu, Phone, MapPin, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { CONTACT_INFO, WHATSAPP_MESSAGES, NAVIGATION } from "@/lib/constants"
+import { trackWhatsAppClick } from "@/lib/analytics"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -18,6 +20,7 @@ export function Header() {
 
   const openWhatsApp = () => {
     const whatsappUrl = `https://wa.me/${CONTACT_INFO.phone.replace("+", "")}?text=${encodeURIComponent(WHATSAPP_MESSAGES.help)}`
+    trackWhatsAppClick("header")
     window.open(whatsappUrl, "_blank")
     setIsMenuOpen(false)
   }
@@ -82,16 +85,22 @@ export function Header() {
             >
               Obtener Ayuda
             </Button>
+            <ThemeToggle className="text-white/90 hover:text-white hover:bg-white/10" />
           </div>
 
-          <Button
-            variant="ghost"
-            size="sm"
-            className="md:hidden text-white/90 hover:text-white hover:bg-white/10"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </Button>
+          <div className="flex items-center gap-1 md:hidden">
+            <ThemeToggle className="text-white/90 hover:text-white hover:bg-white/10" />
+            <Button
+              variant="ghost"
+              size="sm"
+              aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={isMenuOpen}
+              className="text-white/90 hover:text-white hover:bg-white/10"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
+          </div>
 
           {/* Mobile Menu */}
           {isMenuOpen && (

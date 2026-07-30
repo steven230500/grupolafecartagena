@@ -31,7 +31,7 @@ export function CompulsiveGamblingSection() {
           </ScrollAnimation>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <ScrollAnimation delay={0.2}>
+            <ScrollAnimation delay={100}>
               <Card className="border-accent/20 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-accent">
@@ -50,7 +50,7 @@ export function CompulsiveGamblingSection() {
               </Card>
             </ScrollAnimation>
 
-            <ScrollAnimation delay={0.4}>
+            <ScrollAnimation delay={200}>
               <Card className="border-primary/20 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-primary">
@@ -69,7 +69,7 @@ export function CompulsiveGamblingSection() {
             </ScrollAnimation>
           </div>
 
-          <ScrollAnimation delay={0.6}>
+          <ScrollAnimation delay={300}>
             <Card className="border-destructive/20 bg-destructive/5 hover:shadow-lg transition-all duration-300">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-destructive">
