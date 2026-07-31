@@ -3,177 +3,99 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Mail, Phone, MessageCircle } from "lucide-react"
-import { ScrollAnimation } from "@/components/scroll-animations"
+import { MessageCircle } from "lucide-react"
 import { CONTACT_INFO, WHATSAPP_MESSAGES } from "@/lib/constants"
 import { trackWhatsAppClick } from "@/lib/analytics"
 
 export function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  })
-
+  const [formData, setFormData] = useState({ name: "", message: "" })
   const phoneNumber = CONTACT_INFO.phone
-  const whatsappMessage = WHATSAPP_MESSAGES.default
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
-    const composedMessage = `Hola, soy ${formData.name}. ${formData.message}\n\n(Correo de contacto: ${formData.email})`
+    const composedMessage = `Hola, soy ${formData.name}. ${formData.message}`
     trackWhatsAppClick("contact_form")
     window.open(`https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(composedMessage)}`, "_blank")
-    setFormData({ name: "", email: "", message: "" })
+    setFormData({ name: "", message: "" })
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }))
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
   return (
-    <section id="contact-section" className="py-16 px-4 bg-secondary/30">
-      <div className="container mx-auto max-w-6xl">
-        <ScrollAnimation animation="fade-in">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Contáctanos</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Estamos aquí para ayudarte. Tu información es completamente confidencial.
-            </p>
-          </div>
-        </ScrollAnimation>
+    <section id="contacto" className="border-t border-border py-16 sm:py-24">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-5 sm:px-10 md:grid-cols-[0.9fr_1.1fr] md:gap-18">
+        <div>
+          <span className="eyebrow">Contacto</span>
+          <h2 className="mt-4 text-3xl font-bold sm:text-4xl">Contáctanos</h2>
+          <p className="mt-4 text-muted-foreground">
+            Estamos aquí para ayudarte. Tu información es completamente confidencial.
+          </p>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Contact Information */}
-          <ScrollAnimation animation="slide-in-left">
-            <div className="space-y-6">
-              <Card className="hover:shadow-lg transition-shadow duration-300">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Phone className="w-5 h-5 text-accent" />
-                    Línea de ayuda confidencial
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="text-center space-y-2">
-                    <div className="text-2xl font-bold text-accent">{CONTACT_INFO.phoneDisplay}</div>
-                    <div className="text-sm text-muted-foreground">
-                      Disponible para ti • Completamente confidencial
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Button
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground flex-1 transition-all duration-300 hover:scale-105"
-                      asChild
-                    >
-                      <a href={`tel:${phoneNumber}`} className="flex items-center justify-center gap-2">
-                        <Phone className="w-4 h-4" />
-                        Llamar
-                      </a>
-                    </Button>
-
-                    <Button
-                      variant="outline"
-                      className="border-accent text-accent hover:bg-accent hover:text-accent-foreground flex-1 bg-transparent transition-all duration-300 hover:scale-105"
-                      asChild
-                    >
-                      <a
-                        href={`https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(whatsappMessage)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2"
-                        onClick={() => trackWhatsAppClick("contact_card")}
-                      >
-                        <MessageCircle className="w-4 h-4" />
-                        WhatsApp
-                      </a>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <div className="bg-accent/10 border border-accent/20 rounded-lg p-6">
-                <h3 className="font-semibold text-foreground mb-2">Confidencialidad Garantizada</h3>
-                <p className="text-sm text-muted-foreground">
-                  Tu información es completamente confidencial. No compartimos tus datos con terceros. Nuestro
-                  compromiso es brindarte un espacio seguro para tu recuperación.
-                </p>
-              </div>
+          <div className="mt-9">
+            <div className="flex justify-between gap-5 border-t border-border py-5 text-[0.95rem]">
+              <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                Línea de ayuda
+              </span>
+              <a href={`tel:${phoneNumber}`} className="border-b border-border hover:border-accent hover:text-primary">
+                {CONTACT_INFO.phoneDisplay}
+              </a>
             </div>
-          </ScrollAnimation>
-
-          {/* Contact Form */}
-          <ScrollAnimation animation="slide-in-right">
-            <Card className="hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Mail className="w-5 h-5 text-accent" />
-                  Envíanos un Mensaje
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Al enviar, se abrirá WhatsApp con tu mensaje listo para enviar directamente a nuestra línea de
-                  ayuda.
-                </p>
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <Input
-                      type="text"
-                      name="name"
-                      placeholder="Tu nombre"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="bg-background transition-all duration-300 focus:scale-105"
-                    />
-                  </div>
-
-                  <div>
-                    <Input
-                      type="email"
-                      name="email"
-                      placeholder="Tu correo electrónico"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="bg-background transition-all duration-300 focus:scale-105"
-                    />
-                  </div>
-
-                  <div>
-                    <Textarea
-                      name="message"
-                      placeholder="Tu mensaje..."
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={4}
-                      className="bg-background resize-none transition-all duration-300 focus:scale-105"
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground transition-all duration-300 hover:scale-105"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    Enviar por WhatsApp
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </ScrollAnimation>
+            <div className="flex justify-between gap-5 border-y border-border py-5 text-[0.95rem]">
+              <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">WhatsApp</span>
+              <a
+                href={`https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(WHATSAPP_MESSAGES.default)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackWhatsAppClick("contact_card")}
+                className="border-b border-border hover:border-accent hover:text-primary"
+              >
+                Escribir mensaje
+              </a>
+            </div>
+          </div>
         </div>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+          <div>
+            <label htmlFor="f-name" className="mb-2 block font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              Tu nombre
+            </label>
+            <input
+              id="f-name"
+              type="text"
+              name="name"
+              placeholder="Nombre"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="w-full border-b border-border bg-transparent py-2.5 outline-none focus:border-accent"
+            />
+          </div>
+          <div>
+            <label htmlFor="f-msg" className="mb-2 block font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              Tu mensaje
+            </label>
+            <textarea
+              id="f-msg"
+              name="message"
+              placeholder="Cuéntanos en qué podemos ayudarte..."
+              value={formData.message}
+              onChange={handleChange}
+              required
+              rows={4}
+              className="w-full resize-y border-b border-border bg-transparent py-2.5 outline-none focus:border-accent"
+            />
+          </div>
+          <button
+            type="submit"
+            className="inline-flex w-fit items-center gap-2 rounded-sm bg-primary px-6 py-3.5 font-mono text-xs uppercase tracking-widest text-primary-foreground hover:bg-accent"
+          >
+            <MessageCircle className="h-4 w-4" />
+            Enviar por WhatsApp
+          </button>
+        </form>
       </div>
     </section>
   )

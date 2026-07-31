@@ -8,16 +8,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: base, lastModified, changeFrequency: "weekly", priority: 1 },
     {
-      url: `${base}/${NAVIGATION.sections.about}`,
+      url: `${base}/${NAVIGATION.sections.problem}`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${base}/${NAVIGATION.sections.program}`,
+      url: `${base}/${NAVIGATION.sections.path}`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.8,
+    },
+    {
+      url: `${base}/${NAVIGATION.sections.community}`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${base}/${NAVIGATION.sections.about}`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
     {
       url: `${base}/${NAVIGATION.sections.contact}`,

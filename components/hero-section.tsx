@@ -1,8 +1,6 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Phone, MessageCircle, ArrowDown } from "lucide-react"
-import { ScrollAnimation } from "@/components/scroll-animations"
+import { Phone, MessageCircle } from "lucide-react"
 import { CONTACT_INFO, WHATSAPP_MESSAGES } from "@/lib/constants"
 import { trackWhatsAppClick } from "@/lib/analytics"
 
@@ -11,82 +9,48 @@ export function HeroSection() {
   const whatsappMessage = WHATSAPP_MESSAGES.default
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10">
-        <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent" />
-
-        {/* Animated background elements */}
-        <div className="absolute top-20 left-10 w-32 h-32 bg-primary/5 rounded-full blur-xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-48 h-48 bg-accent/5 rounded-full blur-xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/3 rounded-full blur-3xl animate-pulse delay-500" />
-      </div>
-
-      <div className="relative z-10 container mx-auto max-w-5xl text-center px-4 py-20">
-        <ScrollAnimation animation="fade-in" delay={0} duration={400}>
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-foreground mb-6 text-balance leading-tight">
-            Jugadores Anónimos <span className="text-primary">Cartagena</span>
+    <section className="pt-16 pb-10 sm:pt-24 sm:pb-16">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-5 sm:px-10 md:grid-cols-[1.4fr_1fr] md:items-end md:gap-14">
+        <div>
+          <span className="eyebrow">Línea confidencial · Cartagena, Colombia</span>
+          <h1 className="mt-4 text-5xl font-bold leading-[1.05] sm:text-6xl lg:text-7xl">
+            Hay un <em className="text-primary">camino</em>
+            <br />
+            de vuelta.
           </h1>
-        </ScrollAnimation>
-
-        <ScrollAnimation animation="slide-in-up" delay={60} duration={400}>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-accent mb-8 text-balance">
-            Apoyo para jugadores compulsivos en Cartagena
-          </h2>
-        </ScrollAnimation>
-
-        <ScrollAnimation animation="slide-in-up" delay={120} duration={400}>
-          <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-4xl mx-auto text-pretty leading-relaxed">
-            Somos <strong className="text-primary">Grupo La Fe Cartagena</strong>, parte de la comunidad internacional
-            de Jugadores Anónimos. Ofrecemos reuniones confidenciales para jugadores compulsivos en Cartagena.
+          <p className="mt-6 max-w-xl text-lg text-muted-foreground">
+            Somos <strong className="text-foreground">Grupo La Fe Cartagena</strong>, parte de la comunidad
+            internacional de Jugadores Anónimos. Reuniones confidenciales para quienes buscan dejar atrás el juego
+            compulsivo — un día a la vez.
           </p>
-        </ScrollAnimation>
-
-        <ScrollAnimation animation="slide-in-up" delay={180} duration={400}>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-            <Button
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-6 text-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
-              asChild
+          <div className="mt-9 flex flex-wrap gap-4">
+            <a
+              href={`tel:${phoneNumber}`}
+              className="inline-flex items-center gap-2 rounded-sm bg-primary px-6 py-3.5 font-mono text-xs uppercase tracking-widest text-primary-foreground hover:bg-accent"
             >
-              <a href={`tel:${phoneNumber}`} className="flex items-center gap-3">
-                <Phone className="w-6 h-6" />
-                Llámanos Ahora
-              </a>
-            </Button>
-
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground px-10 py-6 text-xl font-semibold bg-background/80 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
-              asChild
+              <Phone className="h-4 w-4" />
+              Llamar ahora
+            </a>
+            <a
+              href={`https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(whatsappMessage)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackWhatsAppClick("hero")}
+              className="inline-flex items-center gap-2 rounded-sm border border-border px-6 py-3.5 font-mono text-xs uppercase tracking-widest hover:border-accent hover:text-primary"
             >
-              <a
-                href={`https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(whatsappMessage)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3"
-                onClick={() => trackWhatsAppClick("hero")}
-              >
-                <MessageCircle className="w-6 h-6" />
-                Escríbenos
-              </a>
-            </Button>
+              <MessageCircle className="h-4 w-4" />
+              Escribir por WhatsApp
+            </a>
           </div>
-        </ScrollAnimation>
+        </div>
 
-        <ScrollAnimation animation="fade-in" delay={240} duration={400}>
-          <div className="bg-card/90 backdrop-blur-md border border-border/50 rounded-2xl p-8 inline-block shadow-2xl">
-            <p className="text-sm text-muted-foreground mb-3">Línea de ayuda confidencial</p>
-            <p className="text-3xl font-bold text-foreground mb-2">{CONTACT_INFO.phoneDisplay}</p>
-            <p className="text-sm text-muted-foreground">Disponible para ti • Completamente confidencial</p>
-          </div>
-        </ScrollAnimation>
-
-        <ScrollAnimation animation="fade-in" delay={300} duration={400}>
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <ArrowDown className="w-6 h-6 text-muted-foreground" />
-          </div>
-        </ScrollAnimation>
+        <div className="border-l-2 border-accent py-1 pl-6">
+          <span className="eyebrow">Línea de ayuda</span>
+          <div className="mt-2.5 font-mono text-2xl">{CONTACT_INFO.phoneDisplay}</div>
+          <p className="mt-2.5 text-sm text-muted-foreground">
+            Disponible para ti. Completamente confidencial — nadie más lo sabrá.
+          </p>
+        </div>
       </div>
     </section>
   )

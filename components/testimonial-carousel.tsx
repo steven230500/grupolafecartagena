@@ -1,9 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent } from "@/components/ui/card"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
 
 const testimonials = [
   {
@@ -34,11 +32,9 @@ export function TestimonialCarousel() {
 
   useEffect(() => {
     if (!isAutoPlaying) return
-
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length)
-    }, 5000)
-
+    }, 6000)
     return () => clearInterval(interval)
   }, [isAutoPlaying])
 
@@ -57,68 +53,33 @@ export function TestimonialCarousel() {
     setIsAutoPlaying(false)
   }
 
+  const current = testimonials[currentIndex]
+
   return (
-    <div className="relative max-w-4xl mx-auto">
-      <div className="overflow-hidden rounded-xl">
-        <div
-          className="flex transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className="w-full flex-shrink-0 px-4">
-              <Card className="bg-background/80 border-primary/20 min-h-[200px] flex items-center">
-                <CardContent className="pt-6 text-center">
-                  <blockquote className="text-lg text-muted-foreground italic mb-6 leading-relaxed">
-                    "{testimonial.text}"
-                  </blockquote>
-                  <footer className="text-sm font-medium text-primary">— {testimonial.author}</footer>
-                </CardContent>
-              </Card>
-            </div>
-          ))}
-        </div>
-      </div>
+    <div className="mx-auto max-w-3xl px-5 text-center sm:px-10">
+      <blockquote className="font-serif text-2xl italic leading-snug sm:text-3xl">"{current.text}"</blockquote>
+      <footer className="mt-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+        — {current.author}
+      </footer>
 
-      <div className="flex items-center justify-center gap-4 mt-6">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={goToPrevious}
-          aria-label="Testimonio anterior"
-          className="rounded-full w-10 h-10 p-0 bg-transparent"
-        >
-          <ChevronLeft className="w-4 h-4" />
-        </Button>
-
-        <div className="flex gap-2">
-          {testimonials.map((_, index) => (
+      <div className="mt-9 flex items-center justify-center gap-5">
+        <button onClick={goToPrevious} aria-label="Testimonio anterior" className="text-muted-foreground hover:text-primary">
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+        <div className="flex gap-2.5">
+          {testimonials.map((t, index) => (
             <button
-              key={index}
+              key={t.author}
               onClick={() => goToSlide(index)}
               aria-label={`Ir al testimonio ${index + 1}`}
               aria-current={index === currentIndex}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === currentIndex ? "bg-primary w-6" : "bg-primary/30"
-              }`}
+              className={`h-[3px] transition-all ${index === currentIndex ? "w-6 bg-primary" : "w-[18px] bg-border"}`}
             />
           ))}
         </div>
-
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={goToNext}
-          aria-label="Siguiente testimonio"
-          className="rounded-full w-10 h-10 p-0 bg-transparent"
-        >
-          <ChevronRight className="w-4 h-4" />
-        </Button>
-      </div>
-
-      <div className="text-center mt-4">
-        <p className="text-xs text-muted-foreground">
-          {isAutoPlaying ? "Avance automático activado" : "Navegación manual"}
-        </p>
+        <button onClick={goToNext} aria-label="Siguiente testimonio" className="text-muted-foreground hover:text-primary">
+          <ChevronRight className="h-5 w-5" />
+        </button>
       </div>
     </div>
   )

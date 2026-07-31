@@ -17,9 +17,9 @@ export default function HomePage() {
       <CompulsiveGamblingSection />
       <RecoveryProgramSection />
       <BenefitsSection />
+      <AboutSection />
       <ContactSection />
       <MapSection />
-      <AboutSection />
       <Footer />
       <FloatingActionButton />
     </main>

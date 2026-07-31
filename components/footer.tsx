@@ -1,57 +1,46 @@
-import { Heart, Shield } from "lucide-react"
 import { CONTACT_INFO } from "@/lib/constants"
 
 export function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground pt-12 pb-28 md:pb-12 px-4">
-      <div className="container mx-auto max-w-4xl">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
-              <Heart className="w-5 h-5 text-accent-foreground" />
-            </div>
-            <h3 className="text-xl font-semibold">Grupo La Fe Cartagena</h3>
+    <footer className="border-t-2 border-accent bg-card pb-28 pt-16 md:py-20">
+      <div className="mx-auto max-w-6xl px-5 sm:px-10">
+        <div>
+          <span className="font-serif text-xl font-bold">Grupo La Fe</span>
+          <span className="mt-1 block font-mono text-[0.66rem] uppercase tracking-widest text-muted-foreground">
+            Cartagena · Jugadores Anónimos
+          </span>
+        </div>
+
+        <div className="mt-12 grid grid-cols-1 gap-11 border-t border-border pt-10 sm:grid-cols-3">
+          <p className="text-[0.92rem] text-muted-foreground sm:col-span-1">
+            Somos una comunidad de hombres y mujeres que comparten experiencias, fortaleza y esperanza para resolver
+            nuestro problema común y ayudar a otros a recuperarse de la ludopatía.
+          </p>
+          <div>
+            <h4 className="mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              Contacto de emergencia
+            </h4>
+            <p className="text-[0.92rem] text-muted-foreground">
+              <a href={`tel:${CONTACT_INFO.phone}`} className="text-foreground hover:text-primary">
+                {CONTACT_INFO.phoneDisplay}
+              </a>
+              <br />
+              Disponible para crisis y apoyo inmediato.
+            </p>
           </div>
-
-
-          <div className="flex items-center justify-center gap-2 mb-6">
-            <Shield className="w-4 h-4 text-accent" />
-            <p className="text-sm text-primary-foreground/90">
-              Tu información es confidencial, no compartimos tus datos
+          <div>
+            <h4 className="mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              Confidencialidad
+            </h4>
+            <p className="text-[0.92rem] text-muted-foreground">
+              Tu información es confidencial. No compartimos tus datos con terceros.
             </p>
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/20 pt-8">
-          <div className="grid md:grid-cols-2 gap-6 text-sm text-primary-foreground/80">
-            <div>
-              <h4 className="font-semibold text-primary-foreground mb-2">Jugadores Anónimos</h4>
-              <p className="text-pretty leading-relaxed">
-                Somos una comunidad de hombres y mujeres que comparten experiencias, fortaleza y esperanza para resolver
-                nuestro problema común y ayudar a otros a recuperarse de la ludopatía.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-primary-foreground mb-2">Contacto de Emergencia</h4>
-              <p className="mb-2">
-                Línea de ayuda:{" "}
-                <a href={`tel:${CONTACT_INFO.phone}`} className="underline hover:text-primary-foreground">
-                  {CONTACT_INFO.phoneDisplay}
-                </a>
-              </p>
-              <p className="text-xs">
-                Disponible para crisis y apoyo inmediato. Si estás en una situación de emergencia, no dudes en llamar.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="text-center mt-8 pt-6 border-t border-primary-foreground/20">
-          <p className="text-xs text-primary-foreground/60">
-            © 2025 Grupo La Fe Cartagena - Jugadores Anónimos. Parte de la comunidad internacional de Jugadores
-            Anónimos.
-          </p>
+        <div className="mt-12 border-t border-border pt-7 text-xs text-muted-foreground">
+          © 2026 Grupo La Fe Cartagena — Jugadores Anónimos. Parte de la comunidad internacional de Jugadores
+          Anónimos.
         </div>
       </div>
     </footer>

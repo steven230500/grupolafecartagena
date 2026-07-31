@@ -1,11 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Menu, Phone, MapPin, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Menu, X } from "lucide-react"
 import { CONTACT_INFO, WHATSAPP_MESSAGES, NAVIGATION } from "@/lib/constants"
 import { trackWhatsAppClick } from "@/lib/analytics"
-import { ThemeToggle } from "@/components/theme-toggle"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -24,118 +22,69 @@ export function Header() {
     window.open(whatsappUrl, "_blank")
     setIsMenuOpen(false)
   }
+
+  const navLinks = [
+    { label: "El problema", id: NAVIGATION.sections.problem.replace("#", "") },
+    { label: "El camino", id: NAVIGATION.sections.path.replace("#", "") },
+    { label: "Comunidad", id: NAVIGATION.sections.community.replace("#", "") },
+    { label: "Contacto", id: NAVIGATION.sections.contact.replace("#", "") },
+  ]
+
   return (
-    <header className="relative overflow-hidden">
-      <div className="absolute inset-0 gradient-primary opacity-95"></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/5 to-transparent"></div>
-
-      <div className="absolute top-6 left-6 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl -translate-y-1/2"></div>
-      <div className="absolute top-0 right-1/4 w-64 h-64 bg-accent/10 rounded-full blur-2xl -translate-y-1/3"></div>
-
-      <div className="relative container mx-auto px-4 py-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center">
-                {/* Badge blanco con aro */}
-                <div className="w-16 h-16 rounded-2xl bg-white ring-1 ring-white/70 shadow-lg shadow-black/20 p-2">
-                  <img
-                    src="/logo_transparent.png"
-                    alt="Grupo La Fe Cartagena"
-                    className="w-full h-full object-contain"
-                    loading="eager"
-                  />
-                </div>
-              </div>
-              {/* punto verde */}
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center">
-                <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <h1 className="text-3xl font-bold text-white text-balance leading-tight">Grupo La Fe</h1>
-              <p className="text-white/80 text-sm font-medium tracking-wide">Cartagena • Jugadores Anónimos</p>
-            </div>
+    <header className="sticky top-0 z-20 border-b border-border bg-background/92 backdrop-blur-sm">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-baseline justify-between gap-6 px-5 py-7 sm:px-10">
+        <div className="flex items-baseline gap-3">
+          <img src="/logo_transparent.png" alt="Grupo La Fe Cartagena" className="h-7 w-7 self-center object-contain" />
+          <div>
+            <span className="font-serif text-xl font-bold">Grupo La Fe</span>
+            <span className="mt-1 block font-mono text-[0.66rem] uppercase tracking-widest text-muted-foreground">
+              Cartagena · Jugadores Anónimos
+            </span>
           </div>
-
-          <div className="hidden md:flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm border border-white/20"
-              onClick={() => scrollToSection(NAVIGATION.sections.map.replace("#", ""))}
-            >
-              <MapPin className="w-4 h-4 mr-2" />
-              Ubicación
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-white/90 hover:text-white hover:bg-white/10 backdrop-blur-sm border border-white/20"
-              onClick={() => scrollToSection(NAVIGATION.sections.contact.replace("#", ""))}
-            >
-              <Phone className="w-4 h-4 mr-2" />
-              Contacto
-            </Button>
-            <Button
-              className="bg-white/15 hover:bg-white/25 text-white border border-white/30 backdrop-blur-sm shadow-lg"
-              size="sm"
-              onClick={openWhatsApp}
-            >
-              Obtener Ayuda
-            </Button>
-            <ThemeToggle className="text-white/90 hover:text-white hover:bg-white/10" />
-          </div>
-
-          <div className="flex items-center gap-1 md:hidden">
-            <ThemeToggle className="text-white/90 hover:text-white hover:bg-white/10" />
-            <Button
-              variant="ghost"
-              size="sm"
-              aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
-              aria-expanded={isMenuOpen}
-              className="text-white/90 hover:text-white hover:bg-white/10"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </Button>
-          </div>
-
-          {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="absolute top-full left-0 right-0 md:hidden bg-white/95 backdrop-blur-md border-t border-white/20 shadow-lg">
-              <div className="container mx-auto px-4 py-4 space-y-3">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-foreground hover:bg-accent/10"
-                  onClick={() => scrollToSection(NAVIGATION.sections.map.replace("#", ""))}
-                >
-                  <MapPin className="w-4 h-4 mr-3" />
-                  Ubicación
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-foreground hover:bg-accent/10"
-                  onClick={() => scrollToSection(NAVIGATION.sections.contact.replace("#", ""))}
-                >
-                  <Phone className="w-4 h-4 mr-3" />
-                  Contacto
-                </Button>
-                <Button
-                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
-                  onClick={openWhatsApp}
-                >
-                  <Phone className="w-4 h-4 mr-3" />
-                  Obtener Ayuda
-                </Button>
-              </div>
-            </div>
-          )}
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+        <nav className="hidden items-center gap-8 font-mono text-[0.74rem] uppercase tracking-widest md:flex">
+          {navLinks.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => scrollToSection(link.id)}
+              className="border-b border-transparent pb-0.5 hover:border-accent"
+            >
+              {link.label}
+            </button>
+          ))}
+          <button
+            onClick={openWhatsApp}
+            className="border-b border-transparent pb-0.5 text-primary hover:border-accent"
+          >
+            WhatsApp
+          </button>
+        </nav>
+
+        <button
+          aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={isMenuOpen}
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden"
+        >
+          {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
+
+      {isMenuOpen && (
+        <div className="border-t border-border px-5 py-5 font-mono text-sm uppercase tracking-widest md:hidden">
+          <div className="mx-auto flex max-w-6xl flex-col gap-4">
+            {navLinks.map((link) => (
+              <button key={link.id} onClick={() => scrollToSection(link.id)} className="text-left">
+                {link.label}
+              </button>
+            ))}
+            <button onClick={openWhatsApp} className="text-left text-primary">
+              WhatsApp
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   )
 }

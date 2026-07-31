@@ -1,12 +1,9 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { GeistSans } from "geist/font/sans"
-import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import Script from "next/script"
 import { SITE_CONFIG, CONTACT_INFO, METADATA, SOCIAL_LINKS } from "@/lib/constants"
-import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -71,9 +68,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+    <html lang="es">
+      <body className="font-sans">
         <Script
           id="structured-data"
           type="application/ld+json"
@@ -85,7 +81,6 @@ export default function RootLayout({
               "description": SITE_CONFIG.description,
               "url": SITE_CONFIG.url,
               "telephone": CONTACT_INFO.phone,
-              "email": CONTACT_INFO.email,
               "address": {
                 "@type": "PostalAddress",
                 "addressLocality": CONTACT_INFO.address.locality,
@@ -113,7 +108,6 @@ export default function RootLayout({
               "description": SITE_CONFIG.description,
               "url": SITE_CONFIG.url,
               "telephone": CONTACT_INFO.phone,
-              "email": CONTACT_INFO.email,
               "address": {
                 "@type": "PostalAddress",
                 "addressLocality": CONTACT_INFO.address.locality,
@@ -136,7 +130,6 @@ export default function RootLayout({
         />
         <Suspense fallback={null}>{children}</Suspense>
         <Analytics />
-        </ThemeProvider>
       </body>
     </html>
   )

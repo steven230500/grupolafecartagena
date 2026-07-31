@@ -11,11 +11,16 @@ export const SITE_CONFIG = {
 export const CONTACT_INFO = {
   phone: "+573203639742",
   phoneDisplay: "+57 320 3639742",
-  email: "contact@grupolafecartagena.org",
   address: {
     locality: "Cartagena",
     country: "CO",
   },
+} as const;
+
+export const MAP_COORDS = {
+  latitude: "10.3997",
+  longitude: "-75.5144",
+  googleMapsUrl: "https://www.google.com/maps?q=10.3997,-75.5144",
 } as const;
 
 export const WHATSAPP_MESSAGES = {
@@ -33,10 +38,12 @@ export const SOCIAL_LINKS = {
 export const NAVIGATION = {
   sections: {
     home: "#",
-    about: "#about-section",
-    program: "#recovery-program-section",
-    contact: "#contact-section",
-    map: "#map-section",
+    problem: "#problema",
+    path: "#camino",
+    community: "#comunidad",
+    about: "#sobre-nosotros",
+    contact: "#contacto",
+    map: "#ubicacion",
   },
 } as const;
 
