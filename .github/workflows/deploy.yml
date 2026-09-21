@@ -58,6 +58,8 @@ jobs:
             cat > .env << 'EOF'
             CONTACT_TO=contact@grupolafecartagena.org
             CONTACT_FROM=noreply@grupolafecartagena.org
+            IFOREVENTS_API_URL=${{ secrets.IFOREVENTS_API_URL }}
+            IFOREVENTS_PROJECT_KEY=${{ secrets.IFOREVENTS_PROJECT_KEY }}
             EOF
 
             # Pull & Up
