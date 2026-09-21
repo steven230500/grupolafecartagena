@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Phone, MessageCircle, X } from "lucide-react"
 import { CONTACT_INFO, WHATSAPP_MESSAGES } from "@/lib/constants"
-import { trackWhatsAppClick } from "@/lib/analytics"
 
 export function FloatingActionButton() {
   const [isOpen, setIsOpen] = useState(false)
@@ -39,7 +38,6 @@ export function FloatingActionButton() {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center"
                 aria-label="Escribir por WhatsApp"
-                onClick={() => trackWhatsAppClick("floating_button")}
               >
                 <MessageCircle className="w-6 h-6" />
               </a>

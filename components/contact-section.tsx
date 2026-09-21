@@ -5,7 +5,6 @@ import type React from "react"
 import { useState } from "react"
 import { MessageCircle } from "lucide-react"
 import { CONTACT_INFO, WHATSAPP_MESSAGES } from "@/lib/constants"
-import { trackWhatsAppClick } from "@/lib/analytics"
 
 export function ContactSection() {
   const [formData, setFormData] = useState({ name: "", message: "" })
@@ -14,7 +13,6 @@ export function ContactSection() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const composedMessage = `Hola, soy ${formData.name}. ${formData.message}`
-    trackWhatsAppClick("contact_form")
     window.open(`https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(composedMessage)}`, "_blank")
     setFormData({ name: "", message: "" })
   }
@@ -48,7 +46,6 @@ export function ContactSection() {
                 href={`https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(WHATSAPP_MESSAGES.default)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => trackWhatsAppClick("contact_card")}
                 className="border-b border-border hover:border-accent hover:text-primary"
               >
                 Escribir mensaje

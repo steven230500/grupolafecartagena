@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
 import { CONTACT_INFO, WHATSAPP_MESSAGES, NAVIGATION } from "@/lib/constants"
-import { trackWhatsAppClick } from "@/lib/analytics"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -18,7 +17,6 @@ export function Header() {
 
   const openWhatsApp = () => {
     const whatsappUrl = `https://wa.me/${CONTACT_INFO.phone.replace("+", "")}?text=${encodeURIComponent(WHATSAPP_MESSAGES.help)}`
-    trackWhatsAppClick("header")
     window.open(whatsappUrl, "_blank")
     setIsMenuOpen(false)
   }

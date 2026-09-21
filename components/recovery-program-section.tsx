@@ -2,7 +2,6 @@
 
 import { Phone, MessageCircle } from "lucide-react"
 import { CONTACT_INFO, WHATSAPP_MESSAGES } from "@/lib/constants"
-import { trackWhatsAppClick } from "@/lib/analytics"
 
 export function RecoveryProgramSection() {
   const phoneNumber = CONTACT_INFO.phone
@@ -101,7 +100,6 @@ export function RecoveryProgramSection() {
               href={`https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(whatsappMessage)}`}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackWhatsAppClick("recovery_program")}
               className="inline-flex items-center gap-2 rounded-sm border border-border px-6 py-3.5 font-mono text-xs uppercase tracking-widest hover:border-accent hover:text-primary"
             >
               <MessageCircle className="h-4 w-4" />

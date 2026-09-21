@@ -1,6 +1,5 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { PageViewTracker } from "@/components/page-view-tracker"
 import { Suspense } from "react"
 import Script from "next/script"
 import { SITE_CONFIG, CONTACT_INFO, METADATA, SOCIAL_LINKS } from "@/lib/constants"
@@ -129,7 +128,6 @@ export default function RootLayout({
           }}
         />
         <Suspense fallback={null}>{children}</Suspense>
-        <PageViewTracker />
       </body>
     </html>
   )
