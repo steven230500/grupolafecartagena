@@ -7,6 +7,7 @@ import "./globals.css"
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_CONFIG.url),
+  alternates: { canonical: SITE_CONFIG.url },
   title: METADATA.title,
   description: SITE_CONFIG.description,
   keywords: METADATA.keywords,
@@ -44,8 +45,6 @@ export const metadata: Metadata = {
     images: [
       {
         url: SITE_CONFIG.ogImage,
-        width: 1200,
-        height: 630,
         alt: `Logo ${SITE_CONFIG.name}`,
       },
     ],
@@ -93,37 +92,6 @@ export default function RootLayout({
                 "addressCountry": "CO"
               },
               "keywords": "jugadores anónimos Cartagena, jugadores compulsivos Cartagena, ludopatía Cartagena"
-            }),
-          }}
-        />
-        <Script
-          id="local-business-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "LocalBusiness",
-              "name": SITE_CONFIG.name,
-              "description": SITE_CONFIG.description,
-              "url": SITE_CONFIG.url,
-              "telephone": CONTACT_INFO.phone,
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": CONTACT_INFO.address.locality,
-                "addressCountry": CONTACT_INFO.address.country
-              },
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": "10.3997",
-                "longitude": "-75.5144"
-              },
-              "areaServed": {
-                "@type": "City",
-                "name": "Cartagena",
-                "addressCountry": "CO"
-              },
-              "serviceType": ["Apoyo psicológico", "Grupo de apoyo", "Recuperación de ludopatía"],
-              "priceRange": "$$"
             }),
           }}
         />
